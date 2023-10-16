@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
-            // Debug.Log(moveInput.y);
+            Debug.Log(moveInput.y);
             animator.SetTrigger(AnimationStrings.jump);
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
         }
@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetFacingDirection(Vector2 moveInput)
     {
-        if (moveInput.x > 0 && !IsFacingRight)
+        if (moveInput.x == 1 && !IsFacingRight)
         {
             // if the current move input is positive and the player is not facing right, face the right
             IsFacingRight = true;
