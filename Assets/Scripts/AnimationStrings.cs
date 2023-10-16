@@ -13,5 +13,9 @@ internal class AnimationStrings
     internal static string closeTransition = "closeTransition";
     internal static string isTransitioning = "isTransitioning";
     internal static string isLoading = "isLoading";
+    internal static string isGrounded = "isGrounded";
+    internal static string yVelocity = "yVelocity";
+    internal static string horizontalMoving = "horizontalMoving";
+    internal static string jump = "jump";
 
 }

@@ -9,11 +9,14 @@ public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 2f;
     public float runSpeed = 2.5f;
+    public float jumpImpulse = 6f;
+
 
     Vector2 moveInput;
     Rigidbody2D rigidBody;
     Animator animator;
     InteractionItem interactionItem;
+    TouchingDirections touchingDirections;
 
     [SerializeField]
     public float CurrentMovSpeed
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour
         private set
         {
             _isMoving = value;
+            animator.SetBool(AnimationStrings.horizontalMoving, moveInput.x != 0);
             animator.SetBool(AnimationStrings.isMoving, value);
         }
     }
@@ -73,6 +77,7 @@ public class PlayerController : MonoBehaviour
     public bool isInteracting = false;
 
     private bool _isFacingRight = true;
+
     public bool IsFacingRight
     {
         get
@@ -96,6 +101,7 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         interactionItem = GetComponent<InteractionItem>();
+        touchingDirections = GetComponent<TouchingDirections>();
     }
 
     private void Start() {
@@ -106,10 +112,18 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         moveInput = InputManager.GetInstance().GetMoveDirection();
+        if (moveInput.y > 0 && touchingDirections.IsGrounded) {
+            Debug.Log("Jump");
+            animator.SetTrigger(AnimationStrings.jump);
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
+        }
+
         if (!DialogueManager.GetInstance().DialogueIsPlaying)
         {
             rigidBody.velocity = new Vector2(moveInput.x * CurrentMovSpeed, rigidBody.velocity.y);
         }
+
+        animator.SetFloat(AnimationStrings.yVelocity, rigidBody.velocity.y);
     }
 
 
