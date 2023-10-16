@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    public float walkSpeed = 2f;
+    public float walkSpeed = 1.75f;
+    public float airWalkSpeed = 2.25f;
     public float runSpeed = 2.5f;
     public float jumpImpulse = 6f;
 
@@ -24,16 +25,24 @@ public class PlayerController : MonoBehaviour
         get
         {
             // If the player is moving
-            if (IsMoving)
+            if (IsMoving && !touchingDirections.IsOnWall)
             {
-                if (IsRunning)
+                if (touchingDirections.IsGrounded)
                 {
 
-                    return runSpeed;
+                    if (IsRunning)
+                    {
+
+                        return runSpeed;
+                    }
+                    else
+                    {
+                        return walkSpeed;
+                    }
                 }
                 else
                 {
-                    return walkSpeed;
+                    return airWalkSpeed;
                 }
             }
 
@@ -113,7 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
-            Debug.Log("Jump");
+            // Debug.Log(moveInput.y);
             animator.SetTrigger(AnimationStrings.jump);
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
         }
@@ -129,8 +138,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (IsTalking()) return;
-        if (IsInteracting()) return;
+        if (IsTalking() || IsInteracting()) return;
+        // if (IsInteracting()) return;
 
         SetFacingDirection(moveInput);
         IsMoving = moveInput != Vector2.zero;
