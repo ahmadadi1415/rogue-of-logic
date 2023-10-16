@@ -6,6 +6,7 @@ internal class AnimationStrings
 {
     internal static string isMoving = "isMoving";
     internal static string isRunning = "isRunning";
+    internal static string isCrouch = "isCrouch";
     internal static string isInteracting = "isInteracting";
     internal static string isTalking = "isTalking";
     internal static string canMove = "canMove";

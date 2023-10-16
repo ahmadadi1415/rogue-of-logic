@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
             _isMoving = value;
             animator.SetBool(AnimationStrings.horizontalMoving, moveInput.x != 0);
             animator.SetBool(AnimationStrings.isMoving, value);
+            animator.SetBool(AnimationStrings.isCrouch, moveInput.y < 0);
         }
     }
 
@@ -122,7 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
-            Debug.Log(moveInput.y);
+            // Debug.Log(moveInput.y);
             animator.SetTrigger(AnimationStrings.jump);
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
         }
