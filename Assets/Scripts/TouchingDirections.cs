@@ -68,9 +68,11 @@ public class TouchingDirections : MonoBehaviour
 
     private void FixedUpdate()
     {
-        IsGrounded = touchingColl.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0;
-        IsOnWall = touchingColl.Cast(wallCheckDirection, castFilter, wallHits, wallCheckDistance) > 0;
-        IsOnCeiling = touchingColl.Cast(Vector2.up, castFilter, ceilingHits, ceilingCheckDistance) > 0;
+        bool isTouchingBox = !touchingColl.IsTouchingLayers(LayerMask.NameToLayer("Box"));
+        IsOnWall = touchingColl.Cast(wallCheckDirection, castFilter, wallHits, wallCheckDistance) > 0 && isTouchingBox;
 
+        IsGrounded = touchingColl.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0;
+
+        IsOnCeiling = touchingColl.Cast(Vector2.up, castFilter, ceilingHits, ceilingCheckDistance) > 0;
     }
 }
