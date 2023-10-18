@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     private bool runPressed = false;
     private bool interactPressed = false;
     private bool submitPressed = false;
+    private bool quitPressed = false;
 
     private static InputManager instance;
 
@@ -97,6 +98,17 @@ public class InputManager : MonoBehaviour
         } 
     }
 
+    public void QuitPressed(InputAction.CallbackContext context) {
+        if (context.performed)
+        {
+            quitPressed = true;
+        }
+        else if (context.canceled)
+        {
+            quitPressed = false;
+        }  
+    }
+
     public Vector2 GetMoveDirection() 
     {
         return moveDirection;
@@ -135,6 +147,12 @@ public class InputManager : MonoBehaviour
     public void RegisterSubmitPressed() 
     {
         submitPressed = false;
+    }
+
+    public bool GetQuitPressed() {
+        bool result = quitPressed;
+        quitPressed = false;
+        return result;
     }
 
 }

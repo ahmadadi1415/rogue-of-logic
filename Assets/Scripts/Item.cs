@@ -9,14 +9,18 @@ public class Item : MonoBehaviour
 
    public enum InteractionType { NONE, PickUp, Examine }
    public InteractionType type;
+   private Vector3 firstPosition;
+   private void Awake() {
+      firstPosition = transform.position;
+   }
 
    //Collider Trigger
    //Interaction Type
-   private void Reset()
-   {
-      GetComponent<Collider2D>().isTrigger = true;
-      gameObject.layer = 8;
-   }
+   // private void Reset()
+   // {
+   //    GetComponent<Collider2D>().isTrigger = true;
+   //    gameObject.layer = 8;
+   // }
 
    public void Interact()
    {
@@ -24,15 +28,19 @@ public class Item : MonoBehaviour
       {
          case InteractionType.PickUp:
             FindObjectOfType<InteractionItem>().PickUpItem(gameObject);
-            gameObject.SetActive(false);
             break;
          case InteractionType.Examine:
+            ItemManager.GetInstance().ShowInteractionPanel();
             Debug.Log("EXAMINE");
             break;
          default:
             Debug.Log("NULL ITEM");
             break;
       }
+   }
+
+   public void ResetPosition() {
+      transform.position = firstPosition;
    }
 
 }

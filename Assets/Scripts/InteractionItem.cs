@@ -4,47 +4,12 @@ using UnityEngine;
 
 public class InteractionItem : MonoBehaviour
 {
+    // Interaction with Item from Player
     [Header("Detection Parameters")]
-    // public Transform detectionPoint;
-    // private const float detectionRadius = 0.2f;
-    // public LayerMask detectionLayer;
-    public GameObject detectedObject;
+    public GameObject interactedItem;
 
     [Header("Others")]
-    public List<GameObject> pickedItems = new List<GameObject>();
     private bool objectDetected = false;
-
-    // void Update()
-    // {
-    //     if (anyObjectDetected && InputManager.GetInstance().GetInteractPressed())
-    //     {
-    //         GameObject.FindWithTag("Player").GetComponent<Animator>().SetTrigger(AnimationStrings.isInteracting);
-    //         detectedObject.GetComponent<Item>().Interact();
-    //     }
-    // }
-
-    // bool InteractInput()
-    // {
-    //     return Input.GetKeyDown(KeyCode.E);
-    // }
-
-    // bool DetectObject()
-    // {
-
-
-    //     Collider2D obj = Physics2D.OverlapCircle(detectionPoint.position, detectionRadius, detectionLayer);
-    //     if (obj == null)
-    //     {
-    //         detectedObject = null;
-    //         return false;
-    //     }
-    //     else
-    //     {
-    //         detectedObject = obj.gameObject;
-    //         return true;
-    //     }
-
-    // }
 
     public bool anyObjectDetected
     {
@@ -63,7 +28,7 @@ public class InteractionItem : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
             // Debug.Log("This is an item");
-            detectedObject = other.gameObject;
+            interactedItem = other.gameObject;
             anyObjectDetected = true;
         }
     }
@@ -72,14 +37,14 @@ public class InteractionItem : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            detectedObject = null;
+            interactedItem = null;
             anyObjectDetected = false;
         }
     }
 
     public void PickUpItem(GameObject item)
     {
-        pickedItems.Add(item);
+        
     }
 
 }

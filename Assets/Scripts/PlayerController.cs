@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     InteractionItem interactionItem;
     TouchingDirections touchingDirections;
+    CinemachineFramingTransposer frameTransporter;
 
     [SerializeField]
     public float CurrentMovSpeed
@@ -84,8 +86,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool isInteracting = false;
-
     private bool _isFacingRight = true;
 
     public bool IsFacingRight
@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         interactionItem = GetComponent<InteractionItem>();
         touchingDirections = GetComponent<TouchingDirections>();
+        frameTransporter = FindObjectOfType<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
     private void Start() {
@@ -121,6 +122,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (IsTalking || IsInteracting) return;
+
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
             // Debug.Log(moveInput.y);
@@ -139,26 +142,26 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (IsTalking() || IsInteracting()) return;
-        // if (IsInteracting()) return;
+        if (interactionItem.anyObjectDetected && InputManager.GetInstance().GetInteractPressed() && touchingDirections.IsGrounded){
+            IsInteracting = true;
+        }
+
+        if (IsInteracting && (InputManager.GetInstance().GetQuitPressed() || !ItemManager.GetInstance().ItemInteracting)) {
+            IsInteracting = false;
+        }
+
+        IsTalking = DialogueManager.GetInstance().DialogueIsPlaying;
+        if (IsTalking || IsInteracting) return;
 
         SetFacingDirection(moveInput);
+        LookDown();
         IsMoving = moveInput != Vector2.zero;
         IsRunning = InputManager.GetInstance().getRunPressed();
     }
 
-
-    // public void OnMove(InputAction.CallbackContext context)
-    // {
-    //     moveInput = context.ReadValue<Vector2>();
-
-    //     SetFacingDirection(moveInput);
-    //     IsMoving = moveInput != Vector2.zero;
-    // }
-
     private void SetFacingDirection(Vector2 moveInput)
     {
-        if (moveInput.x == 1 && !IsFacingRight)
+        if (moveInput.x > 0 && !IsFacingRight)
         {
             // if the current move input is positive and the player is not facing right, face the right
             IsFacingRight = true;
@@ -177,58 +180,75 @@ public class PlayerController : MonoBehaviour
         IsRunning = false;
     }
 
-    private bool IsInteracting()
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("player_interact"))
-        {
-            // Debug.Log("interact play");
-            NotMoving();
-            if (!!interactionItem.detectedObject && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f)
-            {
-                interactionItem.detectedObject.GetComponent<Item>().Interact();
-            }
-            return true;
+    private bool _isInteracting;
+    public bool IsInteracting {
+        get {
+            return _isInteracting;
         }
+        set {
+            _isInteracting = value;
+            animator.SetBool(AnimationStrings.isInteracting, value);
+            if (_isInteracting) Interacting();
+            else {
+                ItemManager.GetInstance().HideInteractionPanel();
+            }
+        }
+    }
+    private void Interacting()
+    {
+        // if (animator.GetCurrentAnimatorStateInfo(0).IsName("player_interact"))
+        // {
+        //     // Debug.Log("interact play");
+        //     NotMoving();
+        //     if (!!interactionItem.detectedObject && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f)
+        //     {
+        //         interactionItem.detectedObject.GetComponent<Item>().Interact();
+        //         IsInteracting = true;
+        //     }
+        //     return IsInteracting;
+        // }
 
-        if (interactionItem.anyObjectDetected && InputManager.GetInstance().GetInteractPressed())
-        {
+        // if (interactionItem.anyObjectDetected && InputManager.GetInstance().GetInteractPressed())
+        // {
             NotMoving();
-            float objectPosition = interactionItem.detectedObject.transform.position.x;
+            float objectPosition = interactionItem.interactedItem.transform.position.x;
             float playerPosition = transform.position.x;
             SetFacingDirection((objectPosition < playerPosition) ? Vector2.left : Vector2.right);
-            animator.SetTrigger(AnimationStrings.isInteracting);
-            return true;
-        }
-
-        return false;
+            ItemManager.GetInstance().ShowInteractionPanel();
+        // }
     }
 
-    public bool IsTalking()
-    {
-        if (DialogueManager.GetInstance().DialogueIsPlaying)
-        {
-            // Do nothing when a dialogue is playing, next line of code will be skipped
-            NotMoving();
-            animator.SetBool(AnimationStrings.isTalking, true);
-            return true;
+    private bool _isTalking;
+    public bool IsTalking {
+        get {
+            return _isTalking;
         }
-        else
-        {
-            animator.SetBool(AnimationStrings.isTalking, false);
-            return false;
+        set {
+            _isTalking = value;
+            animator.SetBool(AnimationStrings.isTalking, value);
+            if(_isTalking) NotMoving(); 
         }
     }
 
-    // public void OnRun(InputAction.CallbackContext context)
+    // public bool IsTalking()
     // {
-    //     if (context.started)
+    //     if (DialogueManager.GetInstance().DialogueIsPlaying)
     //     {
-    //         IsRunning = true;
+    //         // Do nothing when a dialogue is playing, next line of code will be skipped
+    //         NotMoving();
+    //         animator.SetBool(AnimationStrings.isTalking, true);
+    //         return true;
     //     }
-    //     else if (context.canceled)
+    //     else
     //     {
-    //         IsRunning = false;
+    //         animator.SetBool(AnimationStrings.isTalking, false);
+    //         return false;
     //     }
     // }
+
+
+    private void LookDown() {
+        frameTransporter.m_ScreenY = (moveInput.y < 0) ? 0.3f : 0.7f;
+    }
 
 }
