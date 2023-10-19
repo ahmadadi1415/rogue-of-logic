@@ -51,9 +51,12 @@ public class ItemManager : MonoBehaviour
     public void ShowInteractionPanel() {
         interactedItem = FindObjectOfType<InteractionItem>().interactedItem;
         itemPosition = interactedItem.transform.position;        
-        interactPanel.SetActive(true);
-        ItemInteracting = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInteracting;
-        StartCoroutine(SelectFirstChoice());
+        if (interactedItem.GetComponent<Item>().type == Item.InteractionType.Examine)
+        {
+            interactPanel.SetActive(true);
+            ItemInteracting = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInteracting;
+            StartCoroutine(SelectFirstChoice());
+        }
     }
 
     public void HideInteractionPanel() {

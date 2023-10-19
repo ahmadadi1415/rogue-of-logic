@@ -196,26 +196,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Interacting()
     {
-        // if (animator.GetCurrentAnimatorStateInfo(0).IsName("player_interact"))
-        // {
-        //     // Debug.Log("interact play");
-        //     NotMoving();
-        //     if (!!interactionItem.detectedObject && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f)
-        //     {
-        //         interactionItem.detectedObject.GetComponent<Item>().Interact();
-        //         IsInteracting = true;
-        //     }
-        //     return IsInteracting;
-        // }
+        NotMoving();
+        float objectPosition = interactionItem.interactedItem.transform.position.x;
+        float playerPosition = transform.position.x;
+        SetFacingDirection((objectPosition < playerPosition) ? Vector2.left : Vector2.right);
+        ItemManager.GetInstance().ShowInteractionPanel();
 
-        // if (interactionItem.anyObjectDetected && InputManager.GetInstance().GetInteractPressed())
-        // {
-            NotMoving();
-            float objectPosition = interactionItem.interactedItem.transform.position.x;
-            float playerPosition = transform.position.x;
-            SetFacingDirection((objectPosition < playerPosition) ? Vector2.left : Vector2.right);
-            ItemManager.GetInstance().ShowInteractionPanel();
-        // }
     }
 
     private bool _isTalking;
@@ -229,23 +215,6 @@ public class PlayerController : MonoBehaviour
             if(_isTalking) NotMoving(); 
         }
     }
-
-    // public bool IsTalking()
-    // {
-    //     if (DialogueManager.GetInstance().DialogueIsPlaying)
-    //     {
-    //         // Do nothing when a dialogue is playing, next line of code will be skipped
-    //         NotMoving();
-    //         animator.SetBool(AnimationStrings.isTalking, true);
-    //         return true;
-    //     }
-    //     else
-    //     {
-    //         animator.SetBool(AnimationStrings.isTalking, false);
-    //         return false;
-    //     }
-    // }
-
 
     private void LookDown() {
         frameTransporter.m_ScreenY = (moveInput.y < 0) ? 0.3f : 0.7f;
