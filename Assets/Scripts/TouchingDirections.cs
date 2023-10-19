@@ -5,12 +5,13 @@ using UnityEngine;
 public class TouchingDirections : MonoBehaviour
 {
     public ContactFilter2D castFilter;
-    public float groundDistance = 0.05f;
+    public float groundDistance = 0.1f;
     public float wallCheckDistance = 0.2f;
     public float ceilingCheckDistance = 0.05f;
     private CapsuleCollider2D touchingColl;
     private Animator animator;
-    RaycastHit2D[] groundHits = new RaycastHit2D[5];
+    private PlayerController player;
+    [SerializeField] RaycastHit2D[] groundHits = new RaycastHit2D[5];
     RaycastHit2D[] wallHits = new RaycastHit2D[5];
     RaycastHit2D[] ceilingHits = new RaycastHit2D[5];
 
@@ -64,6 +65,7 @@ public class TouchingDirections : MonoBehaviour
     {
         touchingColl = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
+        player = GetComponent<PlayerController>();
     }
 
     private void FixedUpdate()
@@ -71,7 +73,7 @@ public class TouchingDirections : MonoBehaviour
         bool isTouchingBox = !touchingColl.IsTouchingLayers(LayerMask.NameToLayer("Box"));
         IsOnWall = touchingColl.Cast(wallCheckDirection, castFilter, wallHits, wallCheckDistance) > 0 && isTouchingBox;
 
-        IsGrounded = touchingColl.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0;
+        IsGrounded = touchingColl.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0 || player.IsOnBox;
 
         IsOnCeiling = touchingColl.Cast(Vector2.up, castFilter, ceilingHits, ceilingCheckDistance) > 0;
     }

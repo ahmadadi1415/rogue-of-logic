@@ -10,6 +10,7 @@ public class Item : MonoBehaviour
    public float groundDistance = 0.05f;
    public float wallCheckDistance = 0.2f;
    public float ceilingCheckDistance = 0.05f;
+   public float itemSpeed = 1.5f;
    private BoxCollider2D touchingColl;
    private Rigidbody2D rigidBody;
    RaycastHit2D[] groundHits = new RaycastHit2D[5];
@@ -18,7 +19,7 @@ public class Item : MonoBehaviour
    public InteractionType type;
    private Vector3 firstPosition;
    [SerializeField] private int waypointNum;
-   [SerializeField] private Vector3 nextWaypoint;
+   [SerializeField] public Vector3 nextWaypoint;
    [SerializeField] private List<Vector3> trajectory;
    [SerializeField] private float distance = 0f;
 
@@ -57,7 +58,6 @@ public class Item : MonoBehaviour
          _isReturning = value;
       }
    }
-
 
    public void Interact()
    {
@@ -137,7 +137,7 @@ public class Item : MonoBehaviour
       float distance = Vector2.Distance(nextWaypoint, transform.position);
       this.distance = distance;
       
-      rigidBody.velocity = directionToWaypoint * 1.5f;
+      rigidBody.velocity = directionToWaypoint * itemSpeed;
       //   rigidBody.MovePosition(directionToWaypoint * 2);
 
       // See if its need to change the waypoint

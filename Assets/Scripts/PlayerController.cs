@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidBody;
     Animator animator;
     InteractionItem interactionItem;
+    public Item interactedItem;
+    public Vector2 itemVelocity;
     TouchingDirections touchingDirections;
     CinemachineFramingTransposer frameTransporter;
 
@@ -105,6 +107,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool _isOnBox = false;
+    public bool IsOnBox {
+        get {
+            return _isOnBox;
+        }
+        set {
+            _isOnBox = value;
+        }
+    }
+
 
     private void Awake()
     {
@@ -131,9 +143,15 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
         }
 
+
         if (!DialogueManager.GetInstance().DialogueIsPlaying)
         {
+            
             rigidBody.velocity = new Vector2(moveInput.x * CurrentMovSpeed, rigidBody.velocity.y);
+            if (IsOnBox)
+            {
+                MoveOnBox();
+            }
         }
 
         animator.SetFloat(AnimationStrings.yVelocity, rigidBody.velocity.y);
@@ -201,7 +219,6 @@ public class PlayerController : MonoBehaviour
         float playerPosition = transform.position.x;
         SetFacingDirection((objectPosition < playerPosition) ? Vector2.left : Vector2.right);
         ItemManager.GetInstance().ShowInteractionPanel();
-
     }
 
     private bool _isTalking;
@@ -220,4 +237,8 @@ public class PlayerController : MonoBehaviour
         frameTransporter.m_ScreenY = (moveInput.y < 0) ? 0.3f : 0.7f;
     }
 
+    private void MoveOnBox() {
+        // rigidBody.position = Vector3.MoveTowards(transform.position, interactedItem.nextWaypoint, Time.deltaTime * interactedItem.itemSpeed);
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x + itemVelocity.x, rigidBody.velocity.y);
+    }
 }
