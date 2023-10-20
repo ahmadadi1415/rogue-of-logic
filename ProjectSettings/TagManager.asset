@@ -46,3 +46,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Puzzle
+    uniqueID: 2081615981
+    locked: 0
