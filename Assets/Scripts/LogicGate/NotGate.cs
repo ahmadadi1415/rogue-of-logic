@@ -9,21 +9,22 @@ public class NotGate : BooleanSource
     public GameObject sourceRef;
     private BooleanSource boolSource;
 
-    private void Awake() {
-        if (sourceRef == null) {
-            BooleanValue = false;
-        }
-        else {
-            boolSource = sourceRef.GetComponent<BooleanSource>();
-        }
+    new void Awake()
+    {
+        base.Awake();
+        boolSource = sourceRef.GetComponent<BooleanSource>();
+        IsDrawingLine = false;
+        // lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = 0;
+        lineRenderer.enabled = false;
     }
 
+
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        if (boolSource != null) {
-            BooleanValue = !boolSource.BooleanValue;
-            return;
-        }
+        base.Update();
+        BooleanValue = !boolSource.BooleanValue;
+
     }
 }
