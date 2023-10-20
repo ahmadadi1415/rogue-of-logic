@@ -49,6 +49,7 @@ public class ItemManager : MonoBehaviour
     }
     
     public void ShowInteractionPanel() {
+        IsItemPanelActive = true;
         interactedItem = FindObjectOfType<InteractionItem>().interactedItem;
         itemPosition = interactedItem.transform.position;        
         if (interactedItem.GetComponent<Item>().type == Item.InteractionType.Examine)
@@ -59,7 +60,18 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    private bool _isItemPanelActive = false;
+    public bool IsItemPanelActive {
+        get {
+            return _isItemPanelActive;
+        }
+        set {
+            _isItemPanelActive = value;
+        }
+    }
+
     public void HideInteractionPanel() {
+        IsItemPanelActive = false;
         interactPanel.SetActive(false);
         itemPosition = null;
         interactedItem = null;

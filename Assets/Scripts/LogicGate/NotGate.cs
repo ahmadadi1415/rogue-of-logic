@@ -14,7 +14,6 @@ public class NotGate : BooleanSource
         base.Awake();
         boolSource = sourceRef.GetComponent<BooleanSource>();
         IsDrawingLine = false;
-        // lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
         lineRenderer.enabled = false;
     }

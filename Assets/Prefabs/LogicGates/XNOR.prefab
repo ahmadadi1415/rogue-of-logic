@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2081615981
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 1969592568, guid: 2ec1fbc32f3bd664fb6046e064c9d041, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,5 +98,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _booleanValue: 0
+  lineRenderer: {fileID: 0}
+  trueColor: {r: 0.8784314, g: 0.7882353, b: 0.4745098, a: 1}
+  falseColor: {r: 0.69411767, g: 0.29803923, b: 0.16470589, a: 1}
+  animDuration: 1.5
+  points:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  nextGate: {fileID: 0}
+  _lineDrawnProgress: 0
+  _isDrawingLine: 0
   sourceRef1: {fileID: 0}
   sourceRef2: {fileID: 0}

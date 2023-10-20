@@ -5,12 +5,13 @@ using UnityEngine;
 public class BooleanSource : MonoBehaviour
 {
     [SerializeField] private bool _booleanValue;
-    [SerializeField] protected LineRenderer lineRenderer;
-    [SerializeField] protected Color trueColor;
-    [SerializeField] protected Color falseColor;
-    [SerializeField] protected float animDuration = 1.5f;
-    [SerializeField] protected Vector3[] points = new Vector3[4];
+    protected LineRenderer lineRenderer;
+    [SerializeField] public Color trueColor;
+    [SerializeField] public Color falseColor;
+    protected float animDuration = 1.5f;
+    protected Vector3[] points = new Vector3[4];
     [SerializeField] private BooleanSource nextGate;
+    [SerializeField] private bool isLineGoingVertical;
 
     public bool BooleanValue
     {
@@ -27,6 +28,7 @@ public class BooleanSource : MonoBehaviour
     protected void Awake()
     {
         lineRenderer = gameObject.GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
     }
 
     [SerializeField] private int _lineDrawnProgress = 0;
@@ -59,15 +61,8 @@ public class BooleanSource : MonoBehaviour
     {
         if (nextGate != null)
         {                        
-            Vector3 wireStartPos = transform.position;
-            Vector3 wireEndPos = nextGate.transform.position;
-            Color lineColor = BooleanValue ? trueColor : falseColor;
-            Debug.Log(BooleanValue);
-            lineRenderer.startColor = lineColor;
-            lineRenderer.endColor = lineColor;
-
             // Debug.Log(wireStartPos);
-            SetupPoints(wireStartPos, wireEndPos);
+            SetupPoints();
         }
     }
 
@@ -77,18 +72,22 @@ public class BooleanSource : MonoBehaviour
         lineRenderer.endColor = lineColor;
 
         if (IsDrawingLine && LineDrawnProgress == 0) {
+            lineRenderer.enabled = true;
             StartCoroutine(DrawWireLine());
+        }
+
+        if (nextGate != null && !IsDrawingLine && LineDrawnProgress == 100) {
+            SetupPoints();
+            lineRenderer.SetPositions(points);
         }
     }
     
     // TODO: Setup Points will be called in start in all logic gate
-    public void SetupPoints(Vector3 wireStartPos, Vector3 wireEndPos)
+    public void SetupPoints()
     {
-        float xMidPos = wireStartPos.x + (wireEndPos.x - wireStartPos.x) * 0.75f;
-        points[0] = wireStartPos;
-        points[1] = new Vector3(xMidPos, wireStartPos.y, wireStartPos.z);
-        points[2] = new Vector3(xMidPos, wireEndPos.y, wireEndPos.z);
-        points[3] = wireEndPos;
+        Vector3 wireStartPos = transform.position;
+        Vector3 wireEndPos = nextGate.transform.position;
+        setLineDirection(wireStartPos, wireEndPos);
 
         lineRenderer.positionCount = 4;
         lineRenderer.SetPosition(0, points[0]);
@@ -131,4 +130,30 @@ public class BooleanSource : MonoBehaviour
         
     }
 
+    private void OnDrawGizmos() {
+        if (nextGate != null)
+        {
+            Gizmos.DrawLine(transform.position, nextGate.transform.position);
+        }
+    }
+
+    private void setLineDirection(Vector3 wireStartPos, Vector3 wireEndPos)
+    {
+        if (isLineGoingVertical)
+        {
+            float yMidPos = wireStartPos.y + (wireEndPos.y - wireStartPos.y);
+            points[0] = wireStartPos;
+            points[1] = new Vector3(wireStartPos.x, yMidPos, wireStartPos.z);
+            points[2] = new Vector3(wireEndPos.x, yMidPos, wireEndPos.z);
+            points[3] = wireEndPos;
+        }
+
+        else {
+            float xMidPos = wireStartPos.x + (wireEndPos.x - wireStartPos.x) * 0.75f;
+            points[0] = wireStartPos;
+            points[1] = new Vector3(xMidPos, wireStartPos.y, wireStartPos.z);
+            points[2] = new Vector3(xMidPos, wireEndPos.y, wireEndPos.z);
+            points[3] = wireEndPos;
+        }
+    }
 }

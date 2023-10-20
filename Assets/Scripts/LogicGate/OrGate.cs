@@ -9,22 +9,21 @@ public class OrGate : BooleanSource
     public GameObject sourceRef1, sourceRef2;
     private BooleanSource boolSource1, boolSource2;
 
-    private void Awake() {
-        if (sourceRef1 == null) {
-            BooleanValue = false;
-        }
-        else {
-            boolSource1 = sourceRef1.GetComponent<BooleanSource>();
-            boolSource2 = sourceRef2.GetComponent<BooleanSource>();
-        }
+
+    new void Awake()
+    {
+        base.Awake();
+        boolSource1 = sourceRef1.GetComponent<BooleanSource>();
+        boolSource2 = sourceRef2.GetComponent<BooleanSource>();
+        IsDrawingLine = false;
+        lineRenderer.positionCount = 0;
+        lineRenderer.enabled = false;
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        if (boolSource1 == null && boolSource2 == null) {
-            return;
-        }
+        base.Update();
         BooleanValue = boolSource1.BooleanValue || boolSource2.BooleanValue;
     }
 }

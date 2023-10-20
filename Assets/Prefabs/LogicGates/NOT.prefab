@@ -99,15 +99,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _booleanValue: 0
+  lineRenderer: {fileID: 0}
   trueColor: {r: 0.8784314, g: 0.7882353, b: 0.4745098, a: 1}
   falseColor: {r: 0.69411767, g: 0.29803923, b: 0.16470589, a: 1}
-  animDuration: 3
+  animDuration: 1.5
   points:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  firstGate: {fileID: 0}
+  nextGate: {fileID: 0}
   _lineDrawnProgress: 0
   _isDrawingLine: 0
   sourceRef: {fileID: 0}
