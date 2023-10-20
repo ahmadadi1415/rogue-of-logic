@@ -22,4 +22,24 @@ public class BooleanSource : MonoBehaviour
         _booleanValue = false;
     }
 
+    
+    [SerializeField] private int _lineDrawnProgress = 100;
+    public int LineDrawnProgress {
+        get {
+            return _lineDrawnProgress;
+        }
+        set {
+            _lineDrawnProgress = value;
+        }
+    }
+
+    [SerializeField] private bool _isDrawingLine = false;
+    public bool IsDrawingLine {
+        get {
+            return _isDrawingLine;
+        }
+        set {
+            _isDrawingLine = value;
+        }
+    }
 }

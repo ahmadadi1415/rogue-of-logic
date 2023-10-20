@@ -7,10 +7,10 @@ public class BufferGate : BooleanSource
     // Get boolean value from input source or boolean gate
     // if type is buffer and invert, only for one input, but for the other accept two input
     public GameObject sourceRef;
+    public Color trueColor, falseColor;
     private BooleanSource boolSource;
     private LineRenderer lineRenderer;
     [SerializeField] private float animDuration = 3f;
-    private Vector3 wireStartPos, wireMidPos, wireEndPos;
     [SerializeField] private Vector3[] points = new Vector3[4];
 
     private void Awake() {
@@ -21,12 +21,11 @@ public class BufferGate : BooleanSource
             boolSource = sourceRef.GetComponent<BooleanSource>();
             lineRenderer = GetComponent<LineRenderer>();
             
-            wireStartPos = sourceRef.transform.position;
-            wireEndPos = transform.position;
+            LineDrawnProgress = 0;
+            IsDrawingLine = false;
+            Vector3 wireStartPos = sourceRef.transform.position;
+            Vector3 wireEndPos = transform.position;
             float xmidpos = wireStartPos.x + (wireEndPos.x - wireStartPos.x) * 0.75f;
-            // Debug.Log(wireEndPos.x);
-            Debug.Log(xmidpos);
-            // float ymidpos = (wireEndPos.y + wireStartPos.y) * 3 / 4;
             points[0] = wireStartPos;
             points[1] = new Vector3(xmidpos, wireStartPos.y, wireStartPos.z);
             points[2] = new Vector3(xmidpos, wireEndPos.y, wireEndPos.z);
@@ -36,26 +35,37 @@ public class BufferGate : BooleanSource
         }
     }
 
-    private void Start()
-    {
-        if (sourceRef != null)
-        {
-            StartCoroutine(DrawWireLine());
-        }
-    }
+    // private void Start()
+    // {
+    //     if (sourceRef != null)
+    //     {
+    //         StartCoroutine(DrawWireLine());
+    //     }
+    // }
+
     // Update is called once per frame
     void Update()
     {
         if (boolSource != null)
         {
             BooleanValue = boolSource.BooleanValue;
-            return;
+            Color lineColor = boolSource.BooleanValue ? trueColor : falseColor;
+            // Debug.Log(lineColor);
+            lineRenderer.startColor = lineColor;
+            lineRenderer.endColor = lineColor;
+
+            if (boolSource.LineDrawnProgress == 100 && LineDrawnProgress == 0 && !IsDrawingLine) {
+                Debug.Log(boolSource.LineDrawnProgress);
+                StartCoroutine(DrawWireLine());
+            }
         }
+
     }
 
     private IEnumerator DrawWireLine()
     {
         float segmentDuration = animDuration / lineRenderer.positionCount;
+        IsDrawingLine = true;
 
         for (int i = 0; i < lineRenderer.positionCount - 1; i++)
         {
@@ -76,7 +86,10 @@ public class BufferGate : BooleanSource
                 }
                 yield return null;
             }
-        }
 
+            LineDrawnProgress += 25;
+        }
+        LineDrawnProgress += 25;
+        IsDrawingLine = false;
     }
 }
