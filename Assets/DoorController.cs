@@ -8,7 +8,6 @@ public class DoorController : MonoBehaviour
     [SerializeField] private Vector3 destinationMove;
     private float startTime;
     private float journeyLength;
-
     public bool _doorOpened = false;
 
     public bool DoorOpened {

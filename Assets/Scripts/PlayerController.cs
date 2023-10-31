@@ -18,12 +18,12 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidBody;
     Animator animator;
     InteractionItem interactionItem;
+    public OutputPuzzle outputPuzzle;
     public Item interactedItem;
     public Vector2 itemVelocity;
     TouchingDirections touchingDirections;
     CinemachineFramingTransposer frameTransporter;
 
-    [SerializeField]
     public float CurrentMovSpeed
     {
         get
@@ -143,7 +143,6 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
         }
 
-
         if (!DialogueManager.GetInstance().DialogueIsPlaying)
         {
             
@@ -170,6 +169,11 @@ public class PlayerController : MonoBehaviour
 
         IsTalking = DialogueManager.GetInstance().DialogueIsPlaying;
         if (IsTalking || IsInteracting) return;
+
+        if (outputPuzzle != null && InputManager.GetInstance().GetSubmitPressed()) {
+            bool solved = outputPuzzle.SolvePuzzle();
+            Debug.Log("Puzzle is solved?" + solved);
+        }
 
         SetFacingDirection(moveInput);
         LookDown();

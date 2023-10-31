@@ -9,8 +9,8 @@ public class OutputPuzzle : MonoBehaviour
     [SerializeField] private GameObject doorToOpen;
     private DoorController doorController;
     private LineRenderer lineRenderer;
-    private bool _hasPlayer;
-    public bool HasPlayer
+    [SerializeField] private bool _hasPlayer = false;
+    private bool HasPlayer
     {
         get
         {
@@ -26,7 +26,9 @@ public class OutputPuzzle : MonoBehaviour
     {
         doorController = doorToOpen.GetComponent<DoorController>();
         lineRenderer = GetComponent<LineRenderer>();
+        HasPlayer = false;
     }
+
     private void Start()
     {
         lineRenderer.startColor = lastLogicGate.defaultColor;
@@ -45,21 +47,6 @@ public class OutputPuzzle : MonoBehaviour
             return;
         }
 
-        if (InputManager.GetInstance().GetSubmitPressed() && HasPlayer && !doorController.DoorOpened)
-        {
-
-            if (!lastLogicGate.BooleanValue)
-            {
-                return;
-            }
-
-            // animate all logic gate and the source
-            foreach (BooleanSource inputSource in inputSources)
-            {
-                inputSource.IsDrawingLine = true;
-            }
-        }
-
         // Open The Door
         if (!lastLogicGate.IsDrawingLine && lastLogicGate.LineDrawnProgress == 100)
         {
@@ -75,6 +62,8 @@ public class OutputPuzzle : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             HasPlayer = true;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = this;
+            // Debug.Log("player in");
         }
     }
 
@@ -83,6 +72,15 @@ public class OutputPuzzle : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             HasPlayer = false;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = null;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (other.CompareTag("Player"))
+        {
+            HasPlayer = true;
+            // Debug.Log(HasPlayer);
         }
     }
 
@@ -96,5 +94,28 @@ public class OutputPuzzle : MonoBehaviour
         lineRenderer.SetPosition(0, lastLogicGate.transform.position);
         lineRenderer.SetPosition(1, new Vector3(transform.position.x, lastLogicGate.transform.position.y, lastLogicGate.transform.position.z));
         lineRenderer.SetPosition(2, transform.position);
+    }
+
+    public bool SolvePuzzle()
+    {
+        if (!doorController.DoorOpened)
+        {
+            Debug.Log("Pressed");
+            if (!lastLogicGate.BooleanValue)
+            {
+                return false;
+            }
+
+            // animate all logic gate and the source
+            foreach (BooleanSource inputSource in inputSources)
+            {
+                inputSource.IsDrawingLine = true;
+            }
+            return true;
+        }
+        else
+        {
+            return true;
+        }
     }
 }
