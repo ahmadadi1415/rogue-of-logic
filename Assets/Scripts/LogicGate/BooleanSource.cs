@@ -8,6 +8,8 @@ public class BooleanSource : MonoBehaviour
     protected LineRenderer lineRenderer;
     [SerializeField] public Color trueColor;
     [SerializeField] public Color falseColor;
+    [SerializeField] public Color defaultColor = Color.gray;
+
     protected float animDuration = 1.5f;
     protected Vector3[] points = new Vector3[4];
     [SerializeField] private BooleanSource nextGate;
@@ -61,19 +63,33 @@ public class BooleanSource : MonoBehaviour
     {
         if (nextGate != null)
         {                        
-            // Debug.Log(wireStartPos);
             SetupPoints();
+            lineRenderer.startColor = defaultColor;
+            lineRenderer.endColor = defaultColor;
+            lineRenderer.enabled = true;
         }
     }
 
     protected void Update() {
-        Color lineColor = BooleanValue ? trueColor : falseColor;
-        lineRenderer.startColor = lineColor;
-        lineRenderer.endColor = lineColor;
+        if (LineDrawnProgress == 0)
+        {
+            if (!IsDrawingLine)
+            {
+                if (nextGate == null) {
+                    return;
+                }
+                SetupPoints();
+                lineRenderer.SetPositions(points);
+            }
 
-        if (IsDrawingLine && LineDrawnProgress == 0) {
-            lineRenderer.enabled = true;
-            StartCoroutine(DrawWireLine());
+            else
+            {
+                Color lineColor = BooleanValue ? trueColor : falseColor;
+                lineRenderer.startColor = lineColor;
+                lineRenderer.endColor = lineColor;
+                lineRenderer.enabled = true;
+                StartCoroutine(DrawWireLine());
+            }
         }
 
         if (nextGate != null && !IsDrawingLine && LineDrawnProgress == 100) {
@@ -87,7 +103,7 @@ public class BooleanSource : MonoBehaviour
     {
         Vector3 wireStartPos = transform.position;
         Vector3 wireEndPos = nextGate.transform.position;
-        setLineDirection(wireStartPos, wireEndPos);
+        SetLineDirection(wireStartPos, wireEndPos);
 
         lineRenderer.positionCount = 4;
         lineRenderer.SetPosition(0, points[0]);
@@ -137,7 +153,7 @@ public class BooleanSource : MonoBehaviour
         }
     }
 
-    private void setLineDirection(Vector3 wireStartPos, Vector3 wireEndPos)
+    private void SetLineDirection(Vector3 wireStartPos, Vector3 wireEndPos)
     {
         if (isLineGoingVertical)
         {

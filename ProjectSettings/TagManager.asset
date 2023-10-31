@@ -49,3 +49,6 @@ TagManager:
   - name: Puzzle
     uniqueID: 2081615981
     locked: 0
+  - name: Foreground
+    uniqueID: 4157379185
+    locked: 0
