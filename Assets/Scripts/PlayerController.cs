@@ -12,7 +12,10 @@ public class PlayerController : MonoBehaviour
     public float airWalkSpeed = 2.25f;
     public float runSpeed = 2.5f;
     public float jumpImpulse = 6f;
+    public int maxHealth = 100;
+	public int currentHealth;
 
+	public HealthBar healthBar;
 
     Vector2 moveInput;
     Rigidbody2D rigidBody;
@@ -128,6 +131,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Start() {
+        currentHealth = maxHealth;
+		healthBar.SetMaxHealth(maxHealth);
         transform.position = SceneController.instance.GetPositionAfter();
         SetFacingDirection(SceneController.instance.GetFacingDirection());
     }
@@ -159,6 +164,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+		{
+			TakeDamage(20);
+		}
         if (interactionItem.anyObjectDetected && InputManager.GetInstance().GetInteractPressed() && touchingDirections.IsGrounded){
             IsInteracting = true;
         }
@@ -180,6 +189,13 @@ public class PlayerController : MonoBehaviour
         IsMoving = moveInput != Vector2.zero;
         IsRunning = InputManager.GetInstance().getRunPressed();
     }
+
+    void TakeDamage(int damage)
+	{
+		currentHealth -= damage;
+
+		healthBar.SetHealth(currentHealth);
+	}
 
     private void SetFacingDirection(Vector2 moveInput)
     {
