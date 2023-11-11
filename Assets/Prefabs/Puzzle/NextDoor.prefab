@@ -480,6 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f273d8828afd274aba8d14d2f548d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.025
-  destinationMove: {x: 0, y: -10, z: 0}
+  moveSpeed: 0.05
+  destinationMove: {x: 0, y: -100, z: 0}
+  initPosition: {x: 0, y: 0, z: 0}
+  isOpening: 1
   _doorOpened: 0

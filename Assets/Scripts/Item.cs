@@ -101,7 +101,7 @@ public class Item : MonoBehaviour
 
    private void SaveItemTrajectory(Vector3 position) {
 
-      if (IsGrounded && touchingColl.IsTouchingLayers(LayerMask.NameToLayer("Player"))) {
+      if (IsGrounded) {
 
          bool isPosDifferent = Mathf.Ceil(position.x) != Mathf.Ceil(trajectory[^1].x) && Mathf.Ceil(position.y) != Mathf.Ceil(trajectory[^1].y);
          if (isPosDifferent)
@@ -140,14 +140,13 @@ public class Item : MonoBehaviour
       rigidBody.velocity = directionToWaypoint * itemSpeed;
       //   rigidBody.MovePosition(directionToWaypoint * 2);
 
+
       // See if its need to change the waypoint
       if (waypointNum < trajectory.Count && waypointNum >= 0 && distance <= 0.05f)
       {
          // Switch to the next waypoint
-         waypointNum--;
 
-         nextWaypoint = trajectory[waypointNum];
-         if (waypointNum == 1)
+         if (waypointNum <= 1)
          {
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector2.zero;
@@ -158,6 +157,12 @@ public class Item : MonoBehaviour
             IsReturning = false;
             return;
          }
+         else
+         {
+            waypointNum--;
+            nextWaypoint = trajectory[waypointNum];
+         }
+
       }
    }
 }

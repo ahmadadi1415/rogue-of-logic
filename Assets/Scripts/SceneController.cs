@@ -17,7 +17,6 @@ public class SceneController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            playerPosAfter = new Vector3(0, -3, 0);
             isFacingRight = true;
         }
 
