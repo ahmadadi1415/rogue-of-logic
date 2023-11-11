@@ -26,11 +26,11 @@ public class Item : MonoBehaviour
     private void Awake() {
       touchingColl = GetComponent<BoxCollider2D>();
       rigidBody = GetComponent<Rigidbody2D>();
-      firstPosition = transform.position;
       trajectory = new List<Vector3>();
    }
 
    private void Start() {
+      firstPosition = transform.position;
       trajectory.Add(firstPosition);
       nextWaypoint = firstPosition;
       waypointNum = 0;
