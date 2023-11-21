@@ -147,7 +147,10 @@ public class PlayerController : MonoBehaviour
 
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
-            jumpSoundEffect.Play();
+            if (jumpSoundEffect != null)
+            {
+                jumpSoundEffect.Play();
+            }
             // Debug.Log(moveInput.y);
             animator.SetTrigger(AnimationStrings.jump);
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
