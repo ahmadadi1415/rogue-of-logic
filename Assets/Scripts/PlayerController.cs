@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
 
                     if (IsRunning)
                     {
-
                         return runSpeed;
+
                     }
                     else
                     {
@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
         get
         {
             return _isRunning;
+            
         }
         set
         {
@@ -130,6 +131,9 @@ public class PlayerController : MonoBehaviour
         frameTransporter = FindObjectOfType<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
+    [SerializeField] private AudioSource jumpSoundEffect;
+    public AudioSource footstepsSound;
+
     private void Start() {
         currentHealth = maxHealth;
 		healthBar.SetMaxHealth(maxHealth);
@@ -143,6 +147,7 @@ public class PlayerController : MonoBehaviour
 
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
+            jumpSoundEffect.Play();
             // Debug.Log(moveInput.y);
             animator.SetTrigger(AnimationStrings.jump);
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
@@ -188,6 +193,7 @@ public class PlayerController : MonoBehaviour
         LookDown();
         IsMoving = moveInput != Vector2.zero;
         IsRunning = InputManager.GetInstance().getRunPressed();
+        
     }
 
     void TakeDamage(int damage)
