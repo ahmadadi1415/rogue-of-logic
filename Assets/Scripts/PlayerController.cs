@@ -143,6 +143,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (currentHealth <= 0) {
+            Debug.Log("Player Died");
+            return;
+        }
+
         if (IsTalking || IsInteracting) return;
 
         moveInput = InputManager.GetInstance().GetMoveDirection();
@@ -172,10 +177,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-		{
-			TakeDamage(20);
-		}
+        if (currentHealth <= 0) {
+            Debug.Log("Player Died");
+            return;
+        }
+        
         if (interactionItem.anyObjectDetected && InputManager.GetInstance().GetInteractPressed() && touchingDirections.IsGrounded){
             IsInteracting = true;
         }
@@ -190,6 +196,10 @@ public class PlayerController : MonoBehaviour
         if (outputPuzzle != null && InputManager.GetInstance().GetSubmitPressed()) {
             bool solved = outputPuzzle.SolvePuzzle();
             Debug.Log("Puzzle is solved?" + solved);
+
+            if (!solved) {
+                TakeDamage(20);
+            }
         }
 
         SetFacingDirection(moveInput);
@@ -199,7 +209,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
 	{
 		currentHealth -= damage;
 
@@ -270,4 +280,5 @@ public class PlayerController : MonoBehaviour
         // rigidBody.position = Vector3.MoveTowards(transform.position, interactedItem.nextWaypoint, Time.deltaTime * interactedItem.itemSpeed);
         rigidBody.velocity = new Vector2(rigidBody.velocity.x + itemVelocity.x, rigidBody.velocity.y);
     }
+
 }
