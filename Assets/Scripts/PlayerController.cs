@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
     TouchingDirections touchingDirections;
     CinemachineFramingTransposer frameTransporter;
 
+    private bool hasDied = false;
+    private float maxFallSpeed = -11f;
+
     public float CurrentMovSpeed
     {
         get
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
         private set
         {
             _isMoving = value;
+            
             animator.SetBool(AnimationStrings.horizontalMoving, moveInput.x != 0);
             animator.SetBool(AnimationStrings.isMoving, value);
             animator.SetBool(AnimationStrings.isCrouch, moveInput.y < 0);
@@ -132,7 +136,11 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField] private AudioSource jumpSoundEffect;
-    public AudioSource footstepsSound;
+    [SerializeField] private AudioSource footstepsSound;
+    [SerializeField] private AudioSource hurtSound;
+    [SerializeField] private AudioSource fellSound;
+    [SerializeField] private AudioSource deathSound;
+    [SerializeField] private AudioSource puzzleSolvedSound;
 
     private void Start() {
         currentHealth = maxHealth;
@@ -143,12 +151,23 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentHealth <= 0) {
-            Debug.Log("Player Died");
-            return;
-        }
+        if (currentHealth <= 0 && hasDied) return;
 
         if (IsTalking || IsInteracting) return;
+
+        if (!touchingDirections.IsGrounded && rigidBody.velocity.y < maxFallSpeed)
+        {
+            IsFallDamaged = true;
+        }
+
+        if (touchingDirections.IsGrounded && IsFallDamaged) {
+            IsFallDamaged = false;
+            TakeDamage(35);
+            if (!fellSound.isPlaying)
+            {
+                fellSound.Play();
+            }
+        }
 
         moveInput = InputManager.GetInstance().GetMoveDirection();
         if (moveInput.y > 0 && touchingDirections.IsGrounded) {
@@ -160,10 +179,20 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger(AnimationStrings.jump);
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpImpulse);
         }
+        
+        if (moveInput.x != 0 && !IsRunning && touchingDirections.IsGrounded)
+        {
+            if (!footstepsSound.isPlaying)
+            {
+                footstepsSound.PlayDelayed(0.35f);
+            }
+        }
+        else {
+            footstepsSound.Stop();
+        }
 
         if (!DialogueManager.GetInstance().DialogueIsPlaying)
         {
-            
             rigidBody.velocity = new Vector2(moveInput.x * CurrentMovSpeed, rigidBody.velocity.y);
             if (IsOnBox)
             {
@@ -177,8 +206,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (currentHealth <= 0) {
-            Debug.Log("Player Died");
+        if (currentHealth <= 0)
+        {
+            if (!hasDied)
+            {
+                hasDied = true;
+                if (!deathSound.isPlaying)
+                {
+                    deathSound.Play();
+                }
+                Debug.Log("Player Died");
+            }
             return;
         }
         
@@ -199,6 +237,10 @@ public class PlayerController : MonoBehaviour
 
             if (!solved) {
                 TakeDamage(20);
+                hurtSound.Play();
+            }
+            else {
+                puzzleSolvedSound.Play();
             }
         }
 
@@ -206,7 +248,6 @@ public class PlayerController : MonoBehaviour
         LookDown();
         IsMoving = moveInput != Vector2.zero;
         IsRunning = InputManager.GetInstance().getRunPressed();
-        
     }
 
     public void TakeDamage(int damage)
@@ -272,6 +313,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool _isFallDamaged;
+    public bool IsFallDamaged {
+        get {
+            return _isFallDamaged;
+        }
+        private set {
+            _isFallDamaged = value;
+        }
+    }
+
     private void LookDown() {
         frameTransporter.m_ScreenY = (moveInput.y < 0) ? 0.3f : 0.7f;
     }
@@ -279,6 +330,14 @@ public class PlayerController : MonoBehaviour
     private void MoveOnBox() {
         // rigidBody.position = Vector3.MoveTowards(transform.position, interactedItem.nextWaypoint, Time.deltaTime * interactedItem.itemSpeed);
         rigidBody.velocity = new Vector2(rigidBody.velocity.x + itemVelocity.x, rigidBody.velocity.y);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Ground")) {
+            if (!IsFallDamaged && !footstepsSound.isPlaying) {
+                footstepsSound.Play();
+            }
+        }
     }
 
 }
