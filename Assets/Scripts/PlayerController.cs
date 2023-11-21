@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!footstepsSound.isPlaying)
             {
-                footstepsSound.PlayDelayed(0.35f);
+                footstepsSound.PlayDelayed(0.3f);
             }
         }
         else {
