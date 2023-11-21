@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 2081615981
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 328424178, guid: 98e69a57222fd59418ada4ea2862beba, type: 3}
+  m_Sprite: {fileID: -507312410, guid: 7a0268c1b5985f448aaf25ab6b67fe38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 1, y: 0.375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   _booleanValue: 0
   trueColor: {r: 0.8784314, g: 0.7882353, b: 0.4745098, a: 1}
   falseColor: {r: 0.69411767, g: 0.29803923, b: 0.16470589, a: 1}
+  defaultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   nextGate: {fileID: 0}
   isLineGoingVertical: 1
   _lineDrawnProgress: 0
@@ -215,7 +216,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.05
+        value: 0.11967163
         inSlope: 0
         outSlope: 0
         tangentMode: 0

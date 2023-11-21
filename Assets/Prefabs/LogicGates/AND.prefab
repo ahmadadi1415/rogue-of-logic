@@ -99,16 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _booleanValue: 0
-  lineRenderer: {fileID: 0}
   trueColor: {r: 0.87843144, g: 0.78823537, b: 0.47450984, a: 1}
   falseColor: {r: 0.69411767, g: 0.29803923, b: 0.16470589, a: 1}
-  animDuration: 1.5
-  points:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  defaultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   nextGate: {fileID: 0}
+  isLineGoingVertical: 0
   _lineDrawnProgress: 0
   _isDrawingLine: 0
   sourceRef1: {fileID: 0}
@@ -158,8 +153,8 @@ LineRenderer:
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -168,7 +163,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.05
+        value: 0.11967163
         inSlope: 0
         outSlope: 0
         tangentMode: 0
