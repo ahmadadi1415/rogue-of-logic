@@ -41,14 +41,23 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Far Background
+    uniqueID: 4258234939
+    locked: 0
   - name: Background
     uniqueID: 425361083
     locked: 0
-  - name: Default
-    uniqueID: 0
+  - name: Decorations
+    uniqueID: 2379173987
+    locked: 0
+  - name: Grounds
+    uniqueID: 3888479729
     locked: 0
   - name: Puzzle
     uniqueID: 2081615981
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Foreground
     uniqueID: 4157379185
