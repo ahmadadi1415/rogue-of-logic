@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -10,7 +11,7 @@ public class Item : MonoBehaviour
    public float groundDistance = 0.05f;
    public float wallCheckDistance = 0.2f;
    public float ceilingCheckDistance = 0.05f;
-   public float itemSpeed = 1.5f;
+   private float itemSpeed = 2f;
    private BoxCollider2D touchingColl;
    private Rigidbody2D rigidBody;
    RaycastHit2D[] groundHits = new RaycastHit2D[5];
@@ -30,7 +31,7 @@ public class Item : MonoBehaviour
    }
 
    private void Start() {
-      firstPosition = transform.position;
+      firstPosition = transform.localPosition;
       trajectory.Add(firstPosition);
       nextWaypoint = firstPosition;
       waypointNum = 0;
@@ -95,18 +96,20 @@ public class Item : MonoBehaviour
       if (!IsGrounded) return;
 
 
-      Vector3 position = transform.position;
+      Vector3 position = transform.localPosition;
       SaveItemTrajectory(position);
    }
 
    private void SaveItemTrajectory(Vector3 position) {
 
       if (IsGrounded) {
-
          bool isPosDifferent = Mathf.Ceil(position.x) != Mathf.Ceil(trajectory[^1].x) && Mathf.Ceil(position.y) != Mathf.Ceil(trajectory[^1].y);
          if (isPosDifferent)
          {
             trajectory.Add(new Vector3(position.x, trajectory[^1].y, trajectory[^1].z));
+
+            if (trajectory[0].x != trajectory[1].x) {
+               trajectory[0] = new Vector3(trajectory[1].x, trajectory[0].y, trajectory[0].z);            }
             trajectory.Add(position);
             nextWaypoint = trajectory[^1];
             waypointNum = trajectory.Count - 1;
@@ -131,10 +134,10 @@ public class Item : MonoBehaviour
    private void Move()
    {
       // Move to the next point
-      Vector2 directionToWaypoint = (nextWaypoint - transform.position).normalized;
+      Vector2 directionToWaypoint = (nextWaypoint - transform.localPosition).normalized;
 
       // Check if the waypoint already reached
-      float distance = Vector2.Distance(nextWaypoint, transform.position);
+      float distance = Vector2.Distance(nextWaypoint, transform.localPosition);
       this.distance = distance;
       
       rigidBody.velocity = directionToWaypoint * itemSpeed;
