@@ -9,6 +9,13 @@ public class SwitchPlace : MonoBehaviour
     [SerializeField] private float xPositionAfter;
     [SerializeField] private bool isFacingRight = true;
     [SerializeField] private bool playerInArea = false;
+
+    private KeyHintSetter uiHintSetter;
+    private void Awake()
+    {
+        uiHintSetter = FindObjectOfType<KeyHintSetter>();
+    }
+
     private void Update()
     {
         if (playerInArea && InputManager.GetInstance().GetSubmitPressed())
@@ -18,16 +25,18 @@ public class SwitchPlace : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             playerInArea = true;
+            uiHintSetter.ShowHints("[ ENTER ]");
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             playerInArea = false;
+            uiHintSetter.HideHints();
         }
     }
 }

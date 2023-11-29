@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2081615981
-  m_SortingLayer: 2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -507312410, guid: 7a0268c1b5985f448aaf25ab6b67fe38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -152,6 +152,7 @@ MonoBehaviour:
   defaultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   nextGate: {fileID: 0}
   isLineGoingVertical: 1
+  isGate: 0
   _lineDrawnProgress: 0
   _isDrawingLine: 0
 --- !u!114 &2319796951908624621
@@ -166,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a965e960c9744d9439070bff4f44c091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onColor: {r: 0, g: 0.11066723, b: 1, a: 1}
+  offColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!120 &3038375354837731190
 LineRenderer:
   serializedVersion: 2
@@ -206,7 +209,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2081615981
-  m_SortingLayer: 2
+  m_SortingLayer: -1
   m_SortingOrder: -1
   m_Positions: []
   m_Parameters:

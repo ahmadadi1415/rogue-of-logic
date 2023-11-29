@@ -24,10 +24,12 @@ public class Item : MonoBehaviour
    [SerializeField] private List<Vector3> trajectory;
    [SerializeField] private float distance = 0f;
 
-    private void Awake() {
+   private KeyHintSetter uiHintSetter;
+      private void Awake() {
       touchingColl = GetComponent<BoxCollider2D>();
       rigidBody = GetComponent<Rigidbody2D>();
       trajectory = new List<Vector3>();
+      uiHintSetter = FindObjectOfType<KeyHintSetter>();
    }
 
    private void Start() {
@@ -114,20 +116,6 @@ public class Item : MonoBehaviour
             nextWaypoint = trajectory[^1];
             waypointNum = trajectory.Count - 1;
          }
-         
-         // // If the x position really different
-         // if (isPosDifferent && Mathf.Ceil(position.x) != Mathf.Ceil(trajectory[^1].x))
-         // {
-         //    trajectory.Add(new Vector3(position.x, trajectory[^1].y, trajectory[^1].z));
-         //    trajectory.Add(position);
-         // }
-
-         // if (isPosDifferent && Mathf.Ceil(position.y) != Mathf.Ceil(trajectory[^1].y))
-         // {
-         //    trajectory.Add(new Vector3(trajectory[^1].x, position.y, trajectory[^1].z));
-         //    trajectory.Add(position);
-         // }
-
       }
    }
 
@@ -142,7 +130,6 @@ public class Item : MonoBehaviour
       
       rigidBody.velocity = directionToWaypoint * itemSpeed;
       //   rigidBody.MovePosition(directionToWaypoint * 2);
-
 
       // See if its need to change the waypoint
       if (waypointNum < trajectory.Count && waypointNum >= 0 && distance <= 0.05f)
@@ -166,6 +153,20 @@ public class Item : MonoBehaviour
             nextWaypoint = trajectory[waypointNum];
          }
 
+      }
+   }
+
+   private void OnTriggerEnter2D(Collider2D other)
+   {
+      if (other.CompareTag("Player") && !IsReturning && !gameObject.GetComponentInChildren<BoxDetection>().playerAbove)
+      {
+         uiHintSetter.ShowHints("[ SPACE ] to interact");
+      }
+   }
+
+   private void OnTriggerExit2D(Collider2D other) {
+      if (other.CompareTag("Player")) {
+         uiHintSetter.HideHints();
       }
    }
 }

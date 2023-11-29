@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 8564174686966749864}
   - component: {fileID: 6609834912995317694}
   - component: {fileID: 1747648221388079375}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerOnBoxDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,3 +323,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   itemrg: {fileID: 0}
+  playerAbove: 0

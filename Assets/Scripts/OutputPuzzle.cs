@@ -10,6 +10,7 @@ public class OutputPuzzle : MonoBehaviour
     private DoorController doorController;
     private LineRenderer lineRenderer;
     [SerializeField] private bool _hasPlayer = false;
+    private bool puzzleSolved = false;
     private bool HasPlayer
     {
         get
@@ -54,6 +55,10 @@ public class OutputPuzzle : MonoBehaviour
             lineRenderer.startColor = lastLogicGate.trueColor;
             lineRenderer.endColor = lastLogicGate.trueColor;
             doorController.DoorOpened = true;
+        }
+
+        if (puzzleSolved && lastLogicGate.LineDrawnProgress == 100) {
+            ChangeLineColor();
         }
     }
 
@@ -103,6 +108,7 @@ public class OutputPuzzle : MonoBehaviour
             Debug.Log("Pressed");
             if (!lastLogicGate.BooleanValue)
             {
+                puzzleSolved = false;
                 return false;
             }
 
@@ -111,11 +117,20 @@ public class OutputPuzzle : MonoBehaviour
             {
                 inputSource.IsDrawingLine = true;
             }
+            puzzleSolved = true;
             return true;
         }
         else
         {
+            puzzleSolved = true;
             return true;
         }
+    }
+
+    public void ChangeLineColor()
+    {
+        Color lineColor = lastLogicGate.BooleanValue ? lastLogicGate.trueColor : lastLogicGate.falseColor;
+        lineRenderer.startColor = lineColor;
+        lineRenderer.endColor = lineColor;
     }
 }

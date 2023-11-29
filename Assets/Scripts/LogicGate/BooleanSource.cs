@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class BooleanSource : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class BooleanSource : MonoBehaviour
     protected Vector3[] points = new Vector3[4];
     [SerializeField] private BooleanSource nextGate;
     [SerializeField] private bool isLineGoingVertical;
+
+    private Light2D light;
+    private bool puzzleSolved = false;
+
+    [SerializeField] private bool isGate = true;
 
     public bool BooleanValue
     {
@@ -31,6 +37,7 @@ public class BooleanSource : MonoBehaviour
     {
         lineRenderer = gameObject.GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
+        light = gameObject.GetComponent<Light2D>();
     }
 
     [SerializeField] private int _lineDrawnProgress = 0;
@@ -68,9 +75,22 @@ public class BooleanSource : MonoBehaviour
             lineRenderer.endColor = defaultColor;
             lineRenderer.enabled = true;
         }
+
+        if (isGate)
+        {
+            light.intensity = BooleanValue ? 0.6f : 0.2f;
+        }
     }
 
     protected void Update() {
+        if (puzzleSolved) {
+            ChangeLineColor();
+        }
+
+        if (isGate) {
+            light.intensity = BooleanValue ? 0.6f : 0.2f;
+        }
+
         if (LineDrawnProgress == 0)
         {
             if (!IsDrawingLine)
@@ -84,10 +104,9 @@ public class BooleanSource : MonoBehaviour
 
             else
             {
-                Color lineColor = BooleanValue ? trueColor : falseColor;
-                lineRenderer.startColor = lineColor;
-                lineRenderer.endColor = lineColor;
+                ChangeLineColor();
                 lineRenderer.enabled = true;
+                puzzleSolved = true;
                 StartCoroutine(DrawWireLine());
             }
         }
@@ -171,5 +190,12 @@ public class BooleanSource : MonoBehaviour
             points[2] = new Vector3(xMidPos, wireEndPos.y, wireEndPos.z);
             points[3] = wireEndPos;
         }
+    }
+
+    public void ChangeLineColor()
+    {
+        Color lineColor = BooleanValue ? trueColor : falseColor;
+        lineRenderer.startColor = lineColor;
+        lineRenderer.endColor = lineColor;
     }
 }

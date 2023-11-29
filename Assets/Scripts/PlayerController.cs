@@ -226,10 +226,15 @@ public class PlayerController : MonoBehaviour
 
         if (IsInteracting && (InputManager.GetInstance().GetQuitPressed() || !ItemManager.GetInstance().ItemInteracting)) {
             IsInteracting = false;
+            FindObjectOfType<KeyHintSetter>().HideHints();
         }
 
         IsTalking = DialogueManager.GetInstance().DialogueIsPlaying;
-        if (IsTalking || IsInteracting) return;
+        if (IsTalking || IsInteracting)
+        {
+            FindObjectOfType<KeyHintSetter>().ShowHints("[ ENTER ] to select");
+            return;
+        }
 
         if (outputPuzzle != null && InputManager.GetInstance().GetSubmitPressed()) {
             bool solved = outputPuzzle.SolvePuzzle();

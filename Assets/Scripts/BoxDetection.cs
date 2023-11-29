@@ -7,6 +7,9 @@ public class BoxDetection : MonoBehaviour
     private PlayerController player;
     public Item item;
     [SerializeField] private Rigidbody2D itemrg;
+
+    public bool playerAbove = false;
+
     private void Awake() {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         item = gameObject.GetComponentInParent<Item>();
@@ -18,6 +21,7 @@ public class BoxDetection : MonoBehaviour
             player.IsOnBox = true;
             player.interactedItem = item;
             player.itemVelocity = itemrg.velocity;
+            playerAbove = true;
         }
     }
 
@@ -31,6 +35,7 @@ public class BoxDetection : MonoBehaviour
         if (other.CompareTag("Player")) {
             player.IsOnBox = false;
             player.interactedItem = null;
+            playerAbove = false;
         }
     }
 }
