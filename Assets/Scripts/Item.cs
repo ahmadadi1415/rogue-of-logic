@@ -25,7 +25,8 @@ public class Item : MonoBehaviour
    [SerializeField] private float distance = 0f;
 
    private KeyHintSetter uiHintSetter;
-      private void Awake() {
+   private void Awake()
+   {
       touchingColl = GetComponent<BoxCollider2D>();
       rigidBody = GetComponent<Rigidbody2D>();
       trajectory = new List<Vector3>();
