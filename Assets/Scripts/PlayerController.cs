@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     CinemachineFramingTransposer frameTransporter;
 
     private bool hasDied = false;
-    private float maxFallSpeed = -11f;
+    private float maxFallSpeed = -13f;
 
     public float CurrentMovSpeed
     {
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
 
         if (touchingDirections.IsGrounded && IsFallDamaged) {
             IsFallDamaged = false;
-            TakeDamage(35);
+            TakeDamage(20);
             if (!fellSound.isPlaying)
             {
                 fellSound.Play();
