@@ -145,7 +145,6 @@ public class PlayerController : MonoBehaviour
     private void Start() {
         currentHealth = maxHealth;
 		healthBar.SetMaxHealth(maxHealth);
-        transform.position = SceneController.instance.GetPositionAfter();
         SetFacingDirection(SceneController.instance.GetFacingDirection());
     }
 

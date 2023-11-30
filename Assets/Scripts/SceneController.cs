@@ -9,7 +9,6 @@ public class SceneController : MonoBehaviour
     public static SceneController instance;
     [SerializeField] private Animator animator;
     [SerializeField] private AsyncOperation asyncScene = null;
-    [SerializeField] private Vector3 playerPosAfter;
     [SerializeField] private bool isFacingRight = true;
     private void Awake()
     {
@@ -44,7 +43,6 @@ public class SceneController : MonoBehaviour
     public void TransitionToScene(string sceneName, float xPlayerPosAfter, bool isFacingRight)
     {
         this.isFacingRight = isFacingRight;
-        playerPosAfter.x = xPlayerPosAfter;
         animator.SetTrigger(AnimationStrings.closeTransition);
         StartCoroutine(LoadingScene(sceneName));
     }
@@ -55,7 +53,6 @@ public class SceneController : MonoBehaviour
         asyncScene = SceneManager.LoadSceneAsync(sceneName);
 
     }
-
     public void QuitGame()
     {
         #if UNITY_EDITOR
@@ -64,11 +61,6 @@ public class SceneController : MonoBehaviour
         Application.Quit();
     }
 
-
-    public Vector3 GetPositionAfter()
-    {
-        return playerPosAfter;
-    }
 
     public Vector2 GetFacingDirection()
     {
