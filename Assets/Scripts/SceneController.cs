@@ -61,7 +61,6 @@ public class SceneController : MonoBehaviour
         Application.Quit();
     }
 
-
     public Vector2 GetFacingDirection()
     {
         return isFacingRight ? Vector2.right : Vector2.left;

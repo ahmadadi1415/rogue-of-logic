@@ -11,6 +11,7 @@ public class OutputPuzzle : MonoBehaviour
     private LineRenderer lineRenderer;
     [SerializeField] private bool _hasPlayer = false;
     private bool puzzleSolved = false;
+    private KeyHintSetter uiHintSetter;
     private bool HasPlayer
     {
         get
@@ -25,6 +26,7 @@ public class OutputPuzzle : MonoBehaviour
 
     private void Awake()
     {
+        uiHintSetter = FindObjectOfType<KeyHintSetter>();
         doorController = doorToOpen.GetComponent<DoorController>();
         lineRenderer = GetComponent<LineRenderer>();
         HasPlayer = false;
@@ -68,6 +70,7 @@ public class OutputPuzzle : MonoBehaviour
         {
             HasPlayer = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = this;
+            uiHintSetter.ShowHints("[ ENTER ] to OPEN");
             // Debug.Log("player in");
         }
     }
@@ -78,6 +81,7 @@ public class OutputPuzzle : MonoBehaviour
         {
             HasPlayer = false;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = null;
+            uiHintSetter.HideHints();
         }
     }
 
