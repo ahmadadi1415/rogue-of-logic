@@ -15,7 +15,7 @@ public class ItemManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogError("Found more than one Input Manager in the scene.");
+            // Debug.LogError("Found more than one Item Manager in the scene.");
             Destroy(gameObject);
         }
         else
@@ -33,7 +33,7 @@ public class ItemManager : MonoBehaviour
     }
 
     private void Update() {
-        if (interactPanel.activeSelf) {
+        if (interactPanel != null && interactPanel.activeSelf) {
             MovePanelToItemPosition();
         }
     }
