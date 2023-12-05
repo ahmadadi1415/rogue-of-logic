@@ -9,23 +9,21 @@ public class SwitchPlace : MonoBehaviour
     [SerializeField] private float xPositionAfter;
     [SerializeField] private bool isFacingRight = true;
     [SerializeField] private bool playerInArea = false;
+    [SerializeField] private bool isTeleported = false;
 
-    private KeyHintSetter uiHintSetter;
-    private void Awake()
-    {
-        uiHintSetter = FindObjectOfType<KeyHintSetter>();
-    }
+    [SerializeField] private KeyHintSetter uiHintSetter;
 
     private void Update()
     {
-        if (playerInArea && InputManager.GetInstance().GetSubmitPressed())
+        if (playerInArea && InputManager.GetInstance().GetSubmitPressed() && !isTeleported)
         {
+            isTeleported = true;
             SceneController.instance.TransitionToScene(destinationScene, xPositionAfter, isFacingRight);
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isTeleported)
         {
             playerInArea = true;
             uiHintSetter.ShowHints("[ ENTER ]");
@@ -33,7 +31,7 @@ public class SwitchPlace : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isTeleported)
         {
             playerInArea = false;
             uiHintSetter.HideHints();

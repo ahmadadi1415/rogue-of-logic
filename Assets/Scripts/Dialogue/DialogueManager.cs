@@ -70,9 +70,9 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void OnDisable() {
-        dialoguePanel.transform.position = Vector3.zero;
-    }
+    // private void OnDisable() {
+    //     dialoguePanel.transform.position = Vector3.zero;
+    // }
 
     public void EnterDialogueMode(TextAsset inkJSON, Transform npcTransform)
     {
