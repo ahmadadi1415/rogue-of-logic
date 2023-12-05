@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource puzzleSolvedSound;
 
     private void Start() {
-        currentHealth = maxHealth;
+        currentHealth = MainManager.Instance.PlayerHealth;
 		healthBar.SetMaxHealth(maxHealth);
         SetFacingDirection(SceneController.instance.GetFacingDirection());
     }
@@ -259,6 +259,7 @@ public class PlayerController : MonoBehaviour
 		currentHealth -= damage;
 
 		healthBar.SetHealth(currentHealth);
+        MainManager.Instance._playerHealth -= damage;
 	}
 
     private void SetFacingDirection(Vector2 moveInput)
