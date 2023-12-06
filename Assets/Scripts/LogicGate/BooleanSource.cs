@@ -17,7 +17,7 @@ public class BooleanSource : MonoBehaviour
     [SerializeField] private bool isLineGoingVertical;
 
     private Light2D light;
-    private bool puzzleSolved = false;
+    [SerializeField] private bool puzzleSolved = false;
 
     [SerializeField] private bool isGate = true;
 
