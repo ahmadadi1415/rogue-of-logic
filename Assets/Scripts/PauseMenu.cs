@@ -1,21 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 
 {
     public static bool GameIsPaused = false;
+    [SerializeField] private GameObject[] menuChoices;
 
     public GameObject pauseMenuUI;
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)){
+        if (InputManager.GetInstance().GetQuitPressed()){
             if (GameIsPaused){
                 Resume();
             } else{
                 Pause();
+                StartCoroutine(SelectFirstChoice());
             }
 
         }
@@ -38,5 +40,12 @@ public class PauseMenu : MonoBehaviour
     }
     public void QuitGame(){
         Application.Quit();
+    }
+
+    private IEnumerator SelectFirstChoice() {
+        // Unity event system need to be cleared, and then select it after at least one frame
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return new WaitForEndOfFrame();
+        EventSystem.current.SetSelectedGameObject(menuChoices[0].gameObject);
     }
 }

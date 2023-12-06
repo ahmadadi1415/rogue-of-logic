@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
 		currentHealth -= damage;
 
 		healthBar.SetHealth(currentHealth);
-        MainManager.Instance._playerHealth -= damage;
+        MainManager.Instance.PlayerHealth -= damage;
 	}
 
     private void SetFacingDirection(Vector2 moveInput)
