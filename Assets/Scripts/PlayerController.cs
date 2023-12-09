@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Player Died");
             }
             else {
-                SceneController.instance.TransitionToScene(SceneManager.GetActiveScene().name);
+                SceneController.instance.CloseTransition();
             }
             return;
         }
