@@ -43,7 +43,7 @@ public class SceneController : MonoBehaviour
     public void TransitionToScene(string sceneName, float xPlayerPosAfter, bool isFacingRight)
     {
         this.isFacingRight = isFacingRight;
-        OpenTransition();
+        CloseTransition();
         StartCoroutine(LoadingScene(sceneName));
     }
 

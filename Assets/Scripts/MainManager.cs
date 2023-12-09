@@ -6,6 +6,7 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
     public int _playerHealth;
+    public int _maxHealth = 100;
     public int _startingPlayerHealth;
 
     private void Awake() {
@@ -27,7 +28,7 @@ public class MainManager : MonoBehaviour
         }
         set
         {
-            _playerHealth = value;
+            _playerHealth = value > _maxHealth ? _maxHealth : value;
         }
     }
 

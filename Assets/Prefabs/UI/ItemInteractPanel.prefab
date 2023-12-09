@@ -155,6 +155,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResetButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6597488657616664147, guid: a495d7d746558744289f8a188fe360c7, type: 3}
+      propertyPath: m_text
+      value: Rewind
+      objectReference: {fileID: 0}
     - target: {fileID: 8648956309405010718, guid: a495d7d746558744289f8a188fe360c7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

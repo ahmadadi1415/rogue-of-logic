@@ -234,7 +234,10 @@ public class PlayerController : MonoBehaviour
         }
 
         IsTalking = DialogueManager.GetInstance().DialogueIsPlaying;
-        if (IsTalking || IsInteracting)
+        if (IsTalking) {
+            return;
+        }
+        if (IsInteracting)
         {
             FindObjectOfType<KeyHintSetter>().ShowHints("[ ENTER ] to select");
             return;
@@ -250,6 +253,8 @@ public class PlayerController : MonoBehaviour
             }
             else {
                 puzzleSolvedSound.Play();
+                // Heal when player solve puzzle
+                Heal(25);
             }
         }
 
@@ -266,6 +271,13 @@ public class PlayerController : MonoBehaviour
 		healthBar.SetHealth(currentHealth);
         MainManager.Instance.PlayerHealth -= damage;
 	}
+
+    public void Heal(int heal) {
+        currentHealth += heal;
+
+		healthBar.SetHealth(currentHealth);
+        MainManager.Instance.PlayerHealth += heal;
+    }
 
     private void SetFacingDirection(Vector2 moveInput)
     {
