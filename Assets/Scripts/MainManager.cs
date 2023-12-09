@@ -6,6 +6,7 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
     public int _playerHealth;
+    public int _startingPlayerHealth;
 
     private void Awake() {
         if (Instance != null) {
@@ -30,6 +31,12 @@ public class MainManager : MonoBehaviour
         }
     }
 
-
-
+    public int StartingPlayerHealth {
+        get {
+            return _startingPlayerHealth;
+        }
+        set {
+            _startingPlayerHealth = value;
+        }
+    }
 }

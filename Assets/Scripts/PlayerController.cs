@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -215,6 +217,9 @@ public class PlayerController : MonoBehaviour
                     deathSound.Play();
                 }
                 Debug.Log("Player Died");
+            }
+            else {
+                SceneController.instance.TransitionToScene(SceneManager.GetActiveScene().name);
             }
             return;
         }

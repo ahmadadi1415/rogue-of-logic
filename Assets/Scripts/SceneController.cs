@@ -27,7 +27,7 @@ public class SceneController : MonoBehaviour
 
     public void TransitionToScene(string sceneName)
     {
-        animator.SetTrigger(AnimationStrings.closeTransition);
+        CloseTransition();
         StartCoroutine(LoadingScene(sceneName));
     }
 
@@ -35,7 +35,7 @@ public class SceneController : MonoBehaviour
     {
         while (asyncScene != null && asyncScene.isDone)
         {
-            animator.SetTrigger(AnimationStrings.openTransition);
+            OpenTransition();
             asyncScene = null;
         }
     }
@@ -43,16 +43,20 @@ public class SceneController : MonoBehaviour
     public void TransitionToScene(string sceneName, float xPlayerPosAfter, bool isFacingRight)
     {
         this.isFacingRight = isFacingRight;
-        animator.SetTrigger(AnimationStrings.closeTransition);
+        OpenTransition();
         StartCoroutine(LoadingScene(sceneName));
     }
 
     IEnumerator LoadingScene(string sceneName)
     {
+        if (MainManager.Instance != null)
+        {
+            MainManager.Instance.StartingPlayerHealth = MainManager.Instance.PlayerHealth;
+        }
         yield return new WaitForSeconds(1f);
         asyncScene = SceneManager.LoadSceneAsync(sceneName);
-
     }
+
     public void QuitGame()
     {
         #if UNITY_EDITOR
@@ -64,5 +68,14 @@ public class SceneController : MonoBehaviour
     public Vector2 GetFacingDirection()
     {
         return isFacingRight ? Vector2.right : Vector2.left;
+    }
+
+    public void OpenTransition() {
+        animator.SetTrigger(AnimationStrings.openTransition);
+    }
+
+    public void CloseTransition()
+    {
+        animator.SetTrigger(AnimationStrings.closeTransition);
     }
 }
