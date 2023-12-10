@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,6 +25,14 @@ public class PauseMenu : MonoBehaviour
 
         }
     }
+
+    public void ShowPauseMenu() {
+        if (MainManager.Instance.PlayerHealth <= 0) {
+            menuChoices[0].SetActive(false);
+        }
+        pauseMenuUI.SetActive(true);
+    }
+    
     public void Resume(){
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
@@ -31,8 +40,8 @@ public class PauseMenu : MonoBehaviour
         // Debug.Log("Resume");
     }
 
-    void Pause(){
-        pauseMenuUI.SetActive(true);
+    public void Pause(){
+        ShowPauseMenu();
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
@@ -57,6 +66,6 @@ public class PauseMenu : MonoBehaviour
         // Unity event system need to be cleared, and then select it after at least one frame
         EventSystem.current.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(menuChoices[0].gameObject);
+        EventSystem.current.SetSelectedGameObject(menuChoices.Where(menu => menu.activeSelf).First());
     }
 }
