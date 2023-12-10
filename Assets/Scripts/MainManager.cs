@@ -87,8 +87,8 @@ public class MainManager : MonoBehaviour
 
     public void RestartStage()
     {
-        SceneController.instance.TransitionToScene(SceneManager.GetActiveScene().name);
         PlayerHealth = StartingPlayerHealth;
+        SceneController.instance.TransitionToScene(SceneManager.GetActiveScene().name);
     }
 
     public void Reset() {

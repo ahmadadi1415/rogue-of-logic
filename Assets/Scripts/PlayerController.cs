@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     TouchingDirections touchingDirections;
     CinemachineFramingTransposer frameTransporter;
 
-    private bool hasDied = false;
+    [SerializeField] private bool hasDied = false;
     private float maxFallSpeed = -13f;
 
     public float CurrentMovSpeed
@@ -217,9 +217,9 @@ public class PlayerController : MonoBehaviour
                 }
                 Debug.Log("Player Died");
             }
-            else {
-                SceneController.instance.CloseTransition();
-            }
+            // else {
+            //     // SceneController.instance.CloseTransition();
+            // }
             return;
         }
         
@@ -270,6 +270,9 @@ public class PlayerController : MonoBehaviour
 
 		healthBar.SetHealth(currentHealth);
         MainManager.Instance.PlayerHealth = currentHealth;
+        if (currentHealth <= 0) {
+            MainManager.Instance.RestartStage();
+        }
 	}
 
     public void Heal(int heal) {
