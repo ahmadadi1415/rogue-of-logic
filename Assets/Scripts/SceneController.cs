@@ -57,14 +57,6 @@ public class SceneController : MonoBehaviour
         asyncScene = SceneManager.LoadSceneAsync(sceneName);
     }
 
-    public void QuitGame()
-    {
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
-        Application.Quit();
-    }
-
     public Vector2 GetFacingDirection()
     {
         return isFacingRight ? Vector2.right : Vector2.left;
