@@ -45,3 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerHealth: 0
+  _maxHealth: 100
+  _startingPlayerHealth: 0
+  _levelInformation: 
+  _currentLevel: 0
+  _currentInformation: 
+  informationList:
+  - 'Buffer: What comes in, goes out unchanged'
+  - 'NOT: Flip the world, where true is false, and false is true'
+  - 'OR: If any is true, the truth is revealed'
+  - 'AND: Both must be true for the truth to emerge'
+  - 'NAND: The truth hides when both are true'
+  - 'NOR: The truth comes out when both are false'
+  - 'XOR: The truth appears when the inputs differ'
+  - 'XNOR: The truth is seen when the inputs are identical'

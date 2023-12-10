@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -36,7 +37,9 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void LoadMenu(){
-        Debug.Log("Loading to Menu");
+        // Debug.Log("Loading to Menu");
+        Time.timeScale = 1f;
+        SceneController.instance.TransitionToScene("MainMenu");
     }
     public void QuitGame(){
         Application.Quit();

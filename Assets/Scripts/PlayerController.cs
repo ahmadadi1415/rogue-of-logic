@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     public float jumpImpulse = 6f;
     public int maxHealth = 100;
 	public int currentHealth;
-
 	public HealthBar healthBar;
 
     Vector2 moveInput;
@@ -243,9 +242,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (outputPuzzle != null && InputManager.GetInstance().GetSubmitPressed()) {
+        if (outputPuzzle != null && !outputPuzzle.IsSolved && InputManager.GetInstance().GetSubmitPressed()) {
             bool solved = outputPuzzle.SolvePuzzle();
-            Debug.Log("Puzzle is solved?" + solved);
+            // Debug.Log("Puzzle is solved?" + solved);
 
             if (!solved) {
                 TakeDamage(20);
@@ -255,6 +254,7 @@ public class PlayerController : MonoBehaviour
                 puzzleSolvedSound.Play();
                 // Heal when player solve puzzle
                 Heal(25);
+                MainManager.Instance.CurrentLevel++;
             }
         }
 
@@ -269,14 +269,14 @@ public class PlayerController : MonoBehaviour
 		currentHealth -= damage;
 
 		healthBar.SetHealth(currentHealth);
-        MainManager.Instance.PlayerHealth -= damage;
+        MainManager.Instance.PlayerHealth = currentHealth;
 	}
 
     public void Heal(int heal) {
-        currentHealth += heal;
+        _ = currentHealth + heal > maxHealth ? currentHealth = maxHealth : currentHealth += heal;
 
-		healthBar.SetHealth(currentHealth);
-        MainManager.Instance.PlayerHealth += heal;
+        healthBar.SetHealth(currentHealth);
+        MainManager.Instance.PlayerHealth = currentHealth;
     }
 
     private void SetFacingDirection(Vector2 moveInput)

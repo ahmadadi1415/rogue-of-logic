@@ -131,6 +131,12 @@ public class OutputPuzzle : MonoBehaviour
         }
     }
 
+    public bool IsSolved {
+        get {
+            return puzzleSolved; 
+        }
+    }
+
     public void ChangeLineColor()
     {
         Color lineColor = lastLogicGate.BooleanValue ? lastLogicGate.trueColor : lastLogicGate.falseColor;
