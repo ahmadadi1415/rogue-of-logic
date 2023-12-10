@@ -25,28 +25,15 @@ public class MainManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         PlayerHealth = 100;
         StartingPlayerHealth = 100;
-        switch (SceneManager.GetActiveScene().name)
+        CurrentLevel = SceneManager.GetActiveScene().name switch
         {
-            case "Stage One":
-                CurrentLevel = 1;
-                break;
-            case "Stage Two":
-                CurrentLevel = 3;
-                break;
-            case "Stage Three":
-                CurrentLevel = 5;
-                break;
-            case "Stage Four":
-                CurrentLevel = 7;
-                break;
-            case "Stage Five":
-                CurrentLevel = 9;
-                break;
-            default:
-                CurrentLevel = 0;
-                break;
-        }
-
+            "Stage One" => 1,
+            "Stage Two" => 3,
+            "Stage Three" => 5,
+            "Stage Four" => 7,
+            "Stage Five" => 9,
+            _ => 0,
+        };
     }
 
     public int PlayerHealth
@@ -102,5 +89,11 @@ public class MainManager : MonoBehaviour
     {
         SceneController.instance.TransitionToScene(SceneManager.GetActiveScene().name);
         PlayerHealth = StartingPlayerHealth;
+    }
+
+    public void Reset() {
+        PlayerHealth = 100;
+        StartingPlayerHealth = 100;
+        CurrentLevel = 1;
     }
 }

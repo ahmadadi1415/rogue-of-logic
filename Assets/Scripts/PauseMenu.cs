@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 
@@ -27,7 +28,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        Debug.Log("Resume");
+        // Debug.Log("Resume");
     }
 
     void Pause(){
@@ -36,11 +37,18 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
     }
 
+    public void Retry() {
+        Time.timeScale = 1f;
+        MainManager.Instance.RestartStage();
+    }
+
     public void LoadMenu(){
         // Debug.Log("Loading to Menu");
         Time.timeScale = 1f;
+        MainManager.Instance.Reset();
         SceneController.instance.TransitionToScene("MainMenu");
     }
+
     public void QuitGame(){
         Application.Quit();
     }
