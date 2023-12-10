@@ -2,11 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject[] menuChoices;
-
     private void Awake() {
         if (MainManager.Instance == null) {
             menuChoices[1].SetActive(false);
@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     private void Start() {
         StartCoroutine(SelectFirstChoice());
     }
+    
     public void StartGame() {
         FindObjectOfType<SceneController>().TransitionToScene("Stage One");
     }
