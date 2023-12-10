@@ -1,12 +1,17 @@
 {
-	"version":"0.2.0",
-	"configurations":[ 
-		{
-			"name":"Unity",
-			"type":"mono",
-			"request":"attach",
-			"address":"localhost",
-			"port":24176
-		}
-	]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Unity",
+            "type": "mono",
+            "request": "attach",
+            "address": "localhost",
+            "port": 24176
+        },
+        {
+            "name": "Attach to Unity",
+            "type": "vstuc",
+            "request": "attach"
+        }
+    ]
 }

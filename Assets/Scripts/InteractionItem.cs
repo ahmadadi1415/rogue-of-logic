@@ -42,9 +42,4 @@ public class InteractionItem : MonoBehaviour
         }
     }
 
-    public void PickUpItem(GameObject item)
-    {
-        
-    }
-
 }

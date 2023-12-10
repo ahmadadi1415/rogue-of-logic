@@ -33,7 +33,8 @@ public class Item : MonoBehaviour
       uiHintSetter = FindObjectOfType<KeyHintSetter>();
    }
 
-   private void Start() {
+   private void Start()
+   {
       firstPosition = transform.localPosition;
       trajectory.Add(firstPosition);
       nextWaypoint = firstPosition;
@@ -42,45 +43,53 @@ public class Item : MonoBehaviour
 
    private bool _isGrounded;
 
-    public bool IsGrounded {
-      get {
+   public bool IsGrounded
+   {
+      get
+      {
          return _isGrounded;
       }
-      set {
+      set
+      {
          _isGrounded = value;
       }
    }
 
    [SerializeField] private bool _isReturning = false;
 
-   public bool IsReturning {
-      get {
+   public bool IsReturning
+   {
+      get
+      {
          return _isReturning;
       }
 
-      set {
+      set
+      {
          _isReturning = value;
       }
    }
 
-   public void Interact()
-   {
-      switch (type)
-      {
-         case InteractionType.PickUp:
-            FindObjectOfType<InteractionItem>().PickUpItem(gameObject);
-            break;
-         case InteractionType.Examine:
-            ItemManager.GetInstance().ShowInteractionPanel();
-            Debug.Log("EXAMINE");
-            break;
-         default:
-            Debug.Log("NULL ITEM");
-            break;
-      }
-   }
+   // public void Interact()
+   // {
+   //    switch (type)
+   //    {
+   //       case InteractionType.PickUp:
+   //          // FindObjectOfType<InteractionItem>().PickUpItem(gameObject);
+   //          break;
+   //       case InteractionType.Examine:
+   //          ItemManager.GetInstance().ShowInteractionPanel();
+   //          FindObjectOfType<LevelInformation>().UpdateInformation("The box, following its previous path, returns to its initial position.");
+   //          Debug.Log("EXAMINE");
+   //          break;
+   //       default:
+   //          Debug.Log("NULL ITEM");
+   //          break;
+   //    }
+   // }
 
-   public void ResetPosition() {
+   public void ResetPosition()
+   {
       // transform.position = firstPosition;
       // waypointNum = trajectory.Count - 1;
       // nextWaypoint = trajectory[waypointNum];
@@ -88,11 +97,13 @@ public class Item : MonoBehaviour
       IsReturning = true;
    }
 
-   private void FixedUpdate() {
+   private void FixedUpdate()
+   {
       IsGrounded = touchingColl.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0;
-      if (IsReturning) {
+      if (IsReturning)
+      {
          Move();
-         
+
          return;
       }
 
@@ -103,16 +114,20 @@ public class Item : MonoBehaviour
       SaveItemTrajectory(position);
    }
 
-   private void SaveItemTrajectory(Vector3 position) {
+   private void SaveItemTrajectory(Vector3 position)
+   {
 
-      if (IsGrounded) {
+      if (IsGrounded)
+      {
          bool isPosDifferent = Mathf.Ceil(position.x) != Mathf.Ceil(trajectory[^1].x) && Mathf.Ceil(position.y) != Mathf.Ceil(trajectory[^1].y);
          if (isPosDifferent)
          {
             trajectory.Add(new Vector3(position.x, trajectory[^1].y, trajectory[^1].z));
 
-            if (trajectory[0].x != trajectory[1].x) {
-               trajectory[0] = new Vector3(trajectory[1].x, trajectory[0].y, trajectory[0].z);            }
+            if (trajectory[0].x != trajectory[1].x)
+            {
+               trajectory[0] = new Vector3(trajectory[1].x, trajectory[0].y, trajectory[0].z);
+            }
             trajectory.Add(position);
             nextWaypoint = trajectory[^1];
             waypointNum = trajectory.Count - 1;
@@ -128,7 +143,7 @@ public class Item : MonoBehaviour
       // Check if the waypoint already reached
       float distance = Vector2.Distance(nextWaypoint, transform.localPosition);
       this.distance = distance;
-      
+
       rigidBody.velocity = directionToWaypoint * itemSpeed;
       //   rigidBody.MovePosition(directionToWaypoint * 2);
 
@@ -165,8 +180,10 @@ public class Item : MonoBehaviour
       }
    }
 
-   private void OnTriggerExit2D(Collider2D other) {
-      if (other.CompareTag("Player")) {
+   private void OnTriggerExit2D(Collider2D other)
+   {
+      if (other.CompareTag("Player"))
+      {
          uiHintSetter.HideHints();
       }
    }

@@ -99,4 +99,10 @@ public class ItemManager : MonoBehaviour
         HideInteractionPanel();
         ItemInteracting = false;
     }
+
+    public void ShowItemHints() {
+        FindObjectOfType<LevelInformation>().UpdateInformation("When the rewind is clicked, the box is drawn back to its starting position.");
+        HideInteractionPanel();
+        ItemInteracting = false;
+    }
 }
