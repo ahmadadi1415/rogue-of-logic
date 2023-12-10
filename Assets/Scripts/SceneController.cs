@@ -31,6 +31,12 @@ public class SceneController : MonoBehaviour
         StartCoroutine(LoadingScene(sceneName));
     }
 
+    public void TransitionToScene(int sceneIndex)
+    {
+        CloseTransition();
+        StartCoroutine(LoadingScene(sceneIndex));
+    }
+
     private void Update()
     {
         while (asyncScene != null && asyncScene.isDone)
@@ -55,6 +61,16 @@ public class SceneController : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         asyncScene = SceneManager.LoadSceneAsync(sceneName);
+    }
+
+    IEnumerator LoadingScene(int sceneIndex)
+    {
+        if (MainManager.Instance != null)
+        {
+            MainManager.Instance.StartingPlayerHealth = MainManager.Instance.PlayerHealth;
+        }
+        yield return new WaitForSeconds(1f);
+        asyncScene = SceneManager.LoadSceneAsync(sceneIndex);
     }
 
     public Vector2 GetFacingDirection()

@@ -28,7 +28,8 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Continue() {
-        FindObjectOfType<SceneController>().TransitionToScene(SceneManager.GetSceneByBuildIndex(MainManager.Instance.CurrentLevel).name);
+        int currentLevel = MainManager.Instance.CurrentLevel;
+        FindObjectOfType<SceneController>().TransitionToScene(currentLevel);
     }
     
     private IEnumerator SelectFirstChoice() {
