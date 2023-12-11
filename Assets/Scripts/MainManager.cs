@@ -10,6 +10,7 @@ public class MainManager : MonoBehaviour
     public int _maxHealth = 100;
     public int _startingPlayerHealth;
     public int _currentLevel;
+    public int _currentStage;
     public string _currentInformation;
     [SerializeField] private List<string> informationList;
 
@@ -25,6 +26,7 @@ public class MainManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         PlayerHealth = 100;
         StartingPlayerHealth = 100;
+        CurrentStage = SceneManager.GetActiveScene().buildIndex;
         CurrentLevel = SceneManager.GetActiveScene().name switch
         {
             "Stage One" => 1,
@@ -72,8 +74,21 @@ public class MainManager : MonoBehaviour
             {
                 _currentLevel = value;
                 _currentInformation = informationList[value - 1];
-                FindObjectOfType<LevelInformation>().UpdateInformation();
+                LevelInformation levelInformation = FindObjectOfType<LevelInformation>();
+                if (levelInformation != null) {
+                    levelInformation.UpdateInformation();
+                }
             }
+        }
+    }
+
+    public int CurrentStage 
+    {
+        get {
+            return _currentStage;
+        }
+        set {
+            _currentStage = value;
         }
     }
 

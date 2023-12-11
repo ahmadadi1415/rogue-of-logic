@@ -18,6 +18,7 @@ public class SwitchPlace : MonoBehaviour
         if (playerInArea && InputManager.GetInstance().GetSubmitPressed() && !isTeleported)
         {
             isTeleported = true;
+            MainManager.Instance.CurrentStage++;
             SceneController.instance.TransitionToScene(destinationScene, xPositionAfter, isFacingRight);
         }
     }

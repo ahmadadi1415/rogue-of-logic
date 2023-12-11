@@ -52,7 +52,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu(){
         // Debug.Log("Loading to Menu");
         Time.timeScale = 1f;
-        MainManager.Instance.Reset();
+        // MainManager.Instance.Reset();
         SceneController.instance.TransitionToScene("MainMenu");
     }
 

@@ -139,7 +139,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start() {
         currentHealth = MainManager.Instance.PlayerHealth;
-		healthBar.SetMaxHealth(maxHealth);
         SetFacingDirection(SceneController.instance.GetFacingDirection());
     }
 

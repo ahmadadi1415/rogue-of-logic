@@ -17,6 +17,10 @@ public class MainMenu : MonoBehaviour
     }
     
     public void StartGame() {
+        if (MainManager.Instance != null)
+        {
+            MainManager.Instance.Reset();
+        }
         FindObjectOfType<SceneController>().TransitionToScene("Stage One");
     }
     
@@ -29,8 +33,8 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Continue() {
-        int currentLevel = MainManager.Instance.CurrentLevel;
-        FindObjectOfType<SceneController>().TransitionToScene(currentLevel);
+        int currentStage = MainManager.Instance.CurrentStage;
+        FindObjectOfType<SceneController>().TransitionToScene(currentStage);
     }
     
     private IEnumerator SelectFirstChoice() {

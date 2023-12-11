@@ -9,7 +9,8 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public Image fill;
 
-    private void Start() {
+    private void Awake() {
+        SetMaxHealth(MainManager.Instance._maxHealth);
         SetHealth(MainManager.Instance.PlayerHealth);
     }
 

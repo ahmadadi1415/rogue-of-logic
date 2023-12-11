@@ -36,8 +36,6 @@ public class LevelInformation : MonoBehaviour
     {
         StartCoroutine(ChangeInformation(text));
     }
-
-
     
     private IEnumerator Typing(string text, float delay)
     {
