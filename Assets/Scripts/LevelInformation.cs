@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelInformation : MonoBehaviour
 {
-    private TextMeshProUGUI tmp;
+    [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private bool isTextChanging = false;
     private void Awake()
     {
@@ -14,6 +14,7 @@ public class LevelInformation : MonoBehaviour
     }
     private void Start()
     {
+        tmp.text = "";
         if (!isTextChanging) UpdateInformation();
     }
 
@@ -46,7 +47,7 @@ public class LevelInformation : MonoBehaviour
 
     private IEnumerator Typing(string text, float delay)
     {
-        if (!isTextChanging)
+        if (!isTextChanging && tmp != null)
         {
             isTextChanging = true;
             tmp.text = "";
