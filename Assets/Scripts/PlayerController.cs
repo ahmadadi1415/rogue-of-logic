@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 itemVelocity;
     TouchingDirections touchingDirections;
     CinemachineFramingTransposer frameTransporter;
+    private KeyHintSetter keyHintSetter;
 
     [SerializeField] private bool hasDied = false;
     private float maxFallSpeed = -13f;
@@ -128,6 +129,7 @@ public class PlayerController : MonoBehaviour
         interactionItem = GetComponent<InteractionItem>();
         touchingDirections = GetComponent<TouchingDirections>();
         frameTransporter = FindObjectOfType<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
+        keyHintSetter = FindObjectOfType<KeyHintSetter>();
     }
 
     [SerializeField] private AudioSource jumpSoundEffect;
@@ -222,16 +224,17 @@ public class PlayerController : MonoBehaviour
 
         if (IsInteracting && (InputManager.GetInstance().GetQuitPressed() || !ItemManager.GetInstance().ItemInteracting)) {
             IsInteracting = false;
-            FindObjectOfType<KeyHintSetter>().HideHints();
+            keyHintSetter.HideHints();
         }
 
         IsTalking = DialogueManager.GetInstance().DialogueIsPlaying;
         if (IsTalking) {
             return;
         }
+
         if (IsInteracting)
         {
-            FindObjectOfType<KeyHintSetter>().ShowHints("[ ENTER ] to select");
+            keyHintSetter.ShowHints("[ ENTER ] to select");
             return;
         }
 
@@ -296,7 +299,7 @@ public class PlayerController : MonoBehaviour
         IsRunning = false;
     }
 
-    private bool _isInteracting;
+    [SerializeField] private bool _isInteracting;
     public bool IsInteracting {
         get {
             return _isInteracting;

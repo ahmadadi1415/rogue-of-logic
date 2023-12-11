@@ -51,13 +51,10 @@ public class ItemManager : MonoBehaviour
     public void ShowInteractionPanel() {
         IsItemPanelActive = true;
         interactedItem = FindObjectOfType<InteractionItem>().interactedItem;
-        itemPosition = interactedItem.transform.position;        
-        if (interactedItem.GetComponent<Item>().type == Item.InteractionType.Examine)
-        {
-            interactPanel.SetActive(true);
-            ItemInteracting = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInteracting;
-            StartCoroutine(SelectFirstChoice());
-        }
+        itemPosition = interactedItem.transform.position;
+        interactPanel.SetActive(true);
+        ItemInteracting = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().IsInteracting;
+        StartCoroutine(SelectFirstChoice());
     }
 
     private bool _isItemPanelActive = false;
@@ -96,13 +93,13 @@ public class ItemManager : MonoBehaviour
 
     public void ResetItemPosition() {
         interactedItem.GetComponent<Item>().ResetPosition();
-        HideInteractionPanel();
         ItemInteracting = false;
+        HideInteractionPanel();
     }
 
     public void ShowItemHints() {
         FindObjectOfType<LevelInformation>().UpdateInformation("When the rewind is clicked, the box is drawn back to its starting position.");
-        HideInteractionPanel();
         ItemInteracting = false;
+        HideInteractionPanel();
     }
 }
