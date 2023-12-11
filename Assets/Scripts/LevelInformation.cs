@@ -21,7 +21,7 @@ public class LevelInformation : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int currentLevel = MainManager.Instance.CurrentLevel;
         string text = "";
-        if (currentLevel == currentSceneIndex || currentLevel == currentSceneIndex + 1)
+        if (currentLevel == (2 * currentSceneIndex - 1) || currentLevel == (2 * currentSceneIndex))
         {
             text = MainManager.Instance.CurrentInformation;
         }
