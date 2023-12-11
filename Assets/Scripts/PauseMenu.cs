@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Linq;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 

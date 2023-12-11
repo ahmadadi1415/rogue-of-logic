@@ -6,7 +6,7 @@
             "type": "mono",
             "request": "attach",
             "address": "localhost",
-            "port": 24176
+            "port": 28200
         },
         {
             "name": "Attach to Unity",
