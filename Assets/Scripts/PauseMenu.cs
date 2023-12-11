@@ -10,17 +10,20 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject[] menuChoices;
 
     public GameObject pauseMenuUI;
-    // Update is called once per frame
+    private PlayerController player;
+
+    private void Awake() {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    }
+
     void Update()
     {
-        if (InputManager.GetInstance().GetQuitPressed()){
+        if (!player.IsInteracting && InputManager.GetInstance().GetQuitPressed()){
             if (GameIsPaused){
                 Resume();
-            } else{
+            } else {
                 Pause();
-                StartCoroutine(SelectFirstChoice());
             }
-
         }
     }
 
@@ -40,6 +43,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause(){
         ShowPauseMenu();
+        StartCoroutine(SelectFirstChoice());
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
