@@ -73,7 +73,12 @@ public class MainManager : MonoBehaviour
             if (value - 1 >= 0)
             {
                 _currentLevel = value;
-                _currentInformation = informationList[value - 1];
+                if (value > informationList.Count) {
+                    _currentInformation = "To unravel the complex ones, start thinking from the end";
+                }
+                else {
+                    _currentInformation = informationList[value - 1];
+                }
                 LevelInformation levelInformation = FindObjectOfType<LevelInformation>();
                 if (levelInformation != null) {
                     levelInformation.UpdateInformation();
