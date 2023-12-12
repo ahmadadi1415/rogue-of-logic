@@ -23,9 +23,14 @@ public class LevelInformation : MonoBehaviour
         if (!isTextChanging)
         {
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            int currensStage = MainManager.Instance.CurrentStage;
             int currentLevel = MainManager.Instance.CurrentLevel;
             string text = "";
             if (currentLevel == (2 * currentSceneIndex - 1) || currentLevel == (2 * currentSceneIndex))
+            {
+                text = MainManager.Instance.CurrentInformation;
+            }
+            else if (currensStage == 5)
             {
                 text = MainManager.Instance.CurrentInformation;
             }
