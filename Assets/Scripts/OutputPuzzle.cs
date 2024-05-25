@@ -41,6 +41,8 @@ public class OutputPuzzle : MonoBehaviour
 
     private void Update()
     {
+        doorController.DoorOpened = lastLogicGate.BooleanValue;
+
         if (lastLogicGate.LineDrawnProgress == 0) {
             ConnectLastLogicGate();
         }
@@ -51,47 +53,49 @@ public class OutputPuzzle : MonoBehaviour
         }
 
         // Open The Door
-        if (!lastLogicGate.IsDrawingLine && lastLogicGate.LineDrawnProgress == 100)
-        {
-            ConnectLastLogicGate();
-            lineRenderer.startColor = lastLogicGate.trueColor;
-            lineRenderer.endColor = lastLogicGate.trueColor;
-            doorController.DoorOpened = true;
-        }
+        // if (!lastLogicGate.IsDrawingLine && lastLogicGate.LineDrawnProgress == 100)
+        // {
+        //     ConnectLastLogicGate();
+        //     lineRenderer.startColor = lastLogicGate.trueColor;
+        //     lineRenderer.endColor = lastLogicGate.trueColor;
+        //     doorController.DoorOpened = true;
+        // }
 
-        if (puzzleSolved && lastLogicGate.LineDrawnProgress == 100) {
-            ChangeLineColor();
-        }
+
+        // if (puzzleSolved && lastLogicGate.LineDrawnProgress == 100) {
+        //     ChangeLineColor();
+        // }
+        ChangeLineColor();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            HasPlayer = true;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = this;
-            uiHintSetter.ShowHints("[ ENTER ] to OPEN");
-            // Debug.Log("player in");
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.CompareTag("Player"))
+    //     {
+    //         HasPlayer = true;
+    //         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = this;
+    //         uiHintSetter.ShowHints("[ ENTER ] to OPEN");
+    //         // Debug.Log("player in");
+    //     }
+    // }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            HasPlayer = false;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = null;
-            uiHintSetter.HideHints();
-        }
-    }
+    // private void OnTriggerExit2D(Collider2D other)
+    // {
+    //     if (other.CompareTag("Player"))
+    //     {
+    //         HasPlayer = false;
+    //         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().outputPuzzle = null;
+    //         uiHintSetter.HideHints();
+    //     }
+    // }
 
-    private void OnTriggerStay2D(Collider2D other) {
-        if (other.CompareTag("Player"))
-        {
-            HasPlayer = true;
-            // Debug.Log(HasPlayer);
-        }
-    }
+    // private void OnTriggerStay2D(Collider2D other) {
+    //     if (other.CompareTag("Player"))
+    //     {
+    //         HasPlayer = true;
+    //         // Debug.Log(HasPlayer);
+    //     }
+    // }
 
     private void OnDrawGizmos()
     {

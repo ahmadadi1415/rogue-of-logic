@@ -19,6 +19,7 @@ public class DoorController : MonoBehaviour
         }
         set {
             _doorOpened = value;
+            gameObject.SetActive(!value);
         }
     }
 
@@ -29,25 +30,26 @@ public class DoorController : MonoBehaviour
     }
 
     private void Update() {
-        if (DoorOpened) {
-            if (isOpening)
-            {
-                if (Vector3.Distance(transform.position, destinationMove) >= 0.01f)
-                {
-                    float distCovered = (Time.time - startTime) * moveSpeed;
-                    float fracJourney = distCovered / journeyLength;
-                    transform.position = Vector3.Lerp(transform.position, destinationMove, fracJourney);
-                }
-                else
-                {
-                    isOpening = false;
-                }
-            }
 
-            else {
-                transform.position = destinationMove;
-                gameObject.SetActive(false);
-            }
-        }
+        // if (DoorOpened) {
+        //     if (isOpening)
+        //     {
+        //         if (Vector3.Distance(transform.position, destinationMove) >= 0.01f)
+        //         {
+        //             float distCovered = (Time.time - startTime) * moveSpeed;
+        //             float fracJourney = distCovered / journeyLength;
+        //             transform.position = Vector3.Lerp(transform.position, destinationMove, fracJourney);
+        //         }
+        //         else
+        //         {
+        //             isOpening = false;
+        //         }
+        //     }
+
+        //     else {
+        //         transform.position = destinationMove;
+        //         gameObject.SetActive(false);
+        //     }
+        // }
     }
 }

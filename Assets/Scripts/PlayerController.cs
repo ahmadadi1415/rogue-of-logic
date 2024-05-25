@@ -238,21 +238,21 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (outputPuzzle != null && !outputPuzzle.IsSolved && InputManager.GetInstance().GetSubmitPressed()) {
-            bool solved = outputPuzzle.SolvePuzzle();
-            // Debug.Log("Puzzle is solved?" + solved);
+        // if (outputPuzzle != null && !outputPuzzle.IsSolved && InputManager.GetInstance().GetSubmitPressed()) {
+        //     bool solved = outputPuzzle.SolvePuzzle();
+        //     // Debug.Log("Puzzle is solved?" + solved);
 
-            if (!solved) {
-                TakeDamage(20);
-                hurtSound.Play();
-            }
-            else {
-                puzzleSolvedSound.Play();
-                // Heal when player solve puzzle
-                Heal(25);
-                MainManager.Instance.CurrentLevel++;
-            }
-        }
+        //     if (!solved) {
+        //         TakeDamage(20);
+        //         hurtSound.Play();
+        //     }
+        //     else {
+        //         puzzleSolvedSound.Play();
+        //         // Heal when player solve puzzle
+        //         Heal(25);
+        //         MainManager.Instance.CurrentLevel++;
+        //     }
+        // }
 
         SetFacingDirection(moveInput);
         LookDown();

@@ -83,9 +83,10 @@ public class BooleanSource : MonoBehaviour
     }
 
     protected void Update() {
-        if (puzzleSolved) {
-            ChangeLineColor();
-        }
+        // if (puzzleSolved) {
+        //     ChangeLineColor();
+        // }
+        ChangeLineColor();
 
         if (isGate) {
             light.intensity = BooleanValue ? 0.6f : 0.2f;
