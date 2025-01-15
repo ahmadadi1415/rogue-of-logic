@@ -32,7 +32,7 @@ public class Interactable : MonoBehaviour
                 Transform npc = interactBubble.transform.parent.transform;
                 bool isPlayerRightOfNPC = player.gameObject.transform.position.x > intrBubblePos.x;
                 npc.localScale = isPlayerRightOfNPC ? new Vector2(1, 1) : new Vector2(-1, 1);
-                player.IsFacingRight = !isPlayerRightOfNPC;
+                player.SetIsFacingRight(!isPlayerRightOfNPC);
                 DialogueManager.GetInstance().EnterDialogueMode(inkJSON, interactBubble.transform);
             }
         }
